@@ -12,10 +12,19 @@ export default function ThemeToggle() {
     const btn = btnRef.current;
     if (!btn || revealing) return;
 
+    const next = theme === "light" ? "dark" : "light";
+    const skipReveal =
+      window.matchMedia("(max-width: 768px)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (skipReveal) {
+      setTheme(next);
+      return;
+    }
+
     const rect = btn.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
-    const next = theme === "light" ? "dark" : "light";
 
     document.documentElement.style.setProperty("--reveal-x", `${x}px`);
     document.documentElement.style.setProperty("--reveal-y", `${y}px`);

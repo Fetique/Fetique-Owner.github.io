@@ -1,14 +1,12 @@
-import { useEffect } from "react";
-import AOS from "aos";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHandshake,
   faLayerGroup,
   faPaperPlane,
   faPhone,
-  faSeedling,
-  faWandMagicSparkles
+  faSeedling
 } from "@fortawesome/free-solid-svg-icons";
+import AprilBadge from "../components/AprilBadge.jsx";
 import StampReveal from "../components/StampReveal.jsx";
 import LegalFold from "../components/LegalFold.jsx";
 import { COMPANY, CONTACT, TAGLINE } from "../data/company.js";
@@ -32,15 +30,11 @@ const PILLARS = [
 ];
 
 export default function LandingPage({ onOpenChannel }) {
-  useEffect(() => {
-    AOS.init({ duration: 900, once: true, easing: "ease-out-cubic", offset: 48 });
-  }, []);
-
   return (
     <div id="top" className="landing">
       <section className="hero mesh" data-aos="fade-up">
-        <div className="hero-badge" data-aos="zoom-in" data-aos-delay="80">
-          <FontAwesomeIcon icon={faWandMagicSparkles} /> Дата регистрации — 1 апреля. Шутка — нет
+        <div data-aos="zoom-in" data-aos-delay="80">
+          <AprilBadge />
         </div>
         <p className="hero-tagline text-shimmer text-shimmer--hero">
           <span className="tagline-part">Найди свой</span>

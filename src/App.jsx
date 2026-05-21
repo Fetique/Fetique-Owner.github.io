@@ -2,10 +2,13 @@ import { useCallback, useEffect, useState } from "react";
 import Layout from "./components/Layout";
 import Preloader from "./components/Preloader";
 import LandingPage from "./pages/LandingPage";
+import { useSiteReady } from "./hooks/useSiteReady.js";
 import { CONTACT } from "./data/company.js";
 
 export default function App() {
   const [overlay, setOverlay] = useState("boot");
+  const siteReady = overlay == null;
+  useSiteReady(siteReady);
 
   useEffect(() => {
     document.documentElement.style.overflow = overlay ? "hidden" : "";

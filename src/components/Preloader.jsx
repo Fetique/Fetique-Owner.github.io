@@ -3,7 +3,9 @@ import { TAGLINE } from "../data/company.js";
 
 const MIN_MS = 2000;
 const FADE_MS = 750;
-const RING_C = 339;
+const RING_R = 62;
+const RING_SIZE = 148;
+const RING_C = 2 * Math.PI * RING_R;
 const base = import.meta.env.BASE_URL || "/";
 
 export default function Preloader({ mode, onBootFadeComplete }) {
@@ -63,7 +65,11 @@ export default function Preloader({ mode, onBootFadeComplete }) {
 
       <div className="preloader-content">
         <div className="preloader-logo-wrap">
-          <svg className="preloader-ring-svg" viewBox="0 0 120 120" aria-hidden>
+          <svg
+            className="preloader-ring-svg"
+            viewBox={`0 0 ${RING_SIZE} ${RING_SIZE}`}
+            aria-hidden
+          >
             <defs>
               <linearGradient id="preloaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#ac8246" />
@@ -71,16 +77,24 @@ export default function Preloader({ mode, onBootFadeComplete }) {
                 <stop offset="100%" stopColor="#d38c74" />
               </linearGradient>
             </defs>
-            <circle className="preloader-ring-track" cx="60" cy="60" r="54" />
+            <circle
+              className="preloader-ring-track"
+              cx={RING_SIZE / 2}
+              cy={RING_SIZE / 2}
+              r={RING_R}
+            />
             <circle
               className="preloader-ring-progress"
-              cx="60"
-              cy="60"
-              r="54"
-              style={{ strokeDashoffset: RING_C - (RING_C * progress) / 100 }}
+              cx={RING_SIZE / 2}
+              cy={RING_SIZE / 2}
+              r={RING_R}
+              style={{
+                strokeDasharray: RING_C,
+                strokeDashoffset: RING_C - (RING_C * progress) / 100
+              }}
             />
           </svg>
-          <img src={`${base}logo.png`} alt="" className="preloader-logo" width={96} height={96} />
+          <img src={`${base}logo.png`} alt="" className="preloader-logo" width={80} height={80} />
         </div>
 
         <p className="preloader-brand text-gradient">{label}</p>
