@@ -37,6 +37,8 @@ jobs:
             echo "ERROR: dist/index.html still references dev entry — build failed"
             exit 1
           fi
+          test -f dist/yandex_6ce789ef6c3d3a42.html || (echo "ERROR: Yandex verification file missing from dist" && exit 1)
+          grep -q 'Verification: 6ce789ef6c3d3a42' dist/yandex_6ce789ef6c3d3a42.html
 
       - name: Deploy built site to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
