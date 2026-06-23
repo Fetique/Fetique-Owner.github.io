@@ -14,8 +14,8 @@ export const CONTACT = {
   founderUrl: 'https://t.me/ZeroFetique',
   founderHandle: '@ZeroFetique',
   founderName: 'Zero',
-  phoneDisplay: '+7 (961) 787-21-27',
-  phoneTel: '+79617872127'
+  phoneDisplay: '+7 (800) 700-00-48',
+  phoneTel: '+78007000048'
 };
 
 export const TAGLINE = 'Найди свой цифровой фетиш';
