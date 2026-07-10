@@ -39,6 +39,10 @@ export default function LegalFold() {
               <dd>{COMPANY.inn}</dd>
             </div>
             <div>
+              <dt>КПП</dt>
+              <dd>{COMPANY.kpp}</dd>
+            </div>
+            <div>
               <dt>ОГРН</dt>
               <dd>{COMPANY.ogrn}</dd>
             </div>
@@ -47,12 +51,32 @@ export default function LegalFold() {
               <dd>{COMPANY.registered}</dd>
             </div>
             <div className="legal-dl--wide">
+              <dt>Юридический адрес</dt>
+              <dd>{COMPANY.address}</dd>
+            </div>
+            <div className="legal-dl--wide">
               <dt>Деятельность</dt>
               <dd>{COMPANY.activity}</dd>
             </div>
+            <div>
+              <dt>Телефон</dt>
+              <dd>
+                <a href={`tel:${CONTACT.phoneTel}`}>{CONTACT.phoneDisplay}</a>
+              </dd>
+            </div>
+            <div>
+              <dt>Email</dt>
+              <dd>
+                <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+              </dd>
+            </div>
           </dl>
           <p className="legal-note">
-            Договор заключает {COMPANY.shortName}. На связи по проектам — {CONTACT.founderName}.
+            По проектам —{" "}
+            <a href={CONTACT.projectsUrl} target="_blank" rel="noopener noreferrer">
+              {CONTACT.projectsHandle}
+            </a>
+            .
           </p>
         </div>
       </div>

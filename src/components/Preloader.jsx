@@ -94,7 +94,7 @@ export default function Preloader({ mode, onBootFadeComplete }) {
               }}
             />
           </svg>
-          <img src={`${base}logo.png`} alt="" className="preloader-logo" width={80} height={80} />
+          <img src={`${base}logo.svg`} alt="" className="preloader-logo" width={80} height={80} />
         </div>
 
         <p className="preloader-brand text-gradient">{label}</p>
