@@ -23,6 +23,13 @@ export const CONTACT = {
 
 export const TAGLINE = "Найди свой цифровой фетиш";
 
+export const BRAND_STRIP = "Цифровой фетиш — когда сайт наконец не стыдно показать";
+
+export const PROCESS_LEAD = "Четыре шага. Без «стратегической сессии на 12 человек».";
+
+export const APRIL_BADGE_HINT =
+  "Зарегистрировались в День дурака — работаем каждый другой день серьёзно";
+
 export const SERVICES = [
   {
     title: "Сайт и лендинг",

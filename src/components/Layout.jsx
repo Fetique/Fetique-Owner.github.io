@@ -1,4 +1,5 @@
 import { scrollToSection } from "../utils/scrollToSection.js";
+import PageScrollbar from "./PageScrollbar.jsx";
 import { COMPANY, CONTACT } from "../data/company.js";
 
 const base = import.meta.env.BASE_URL || "/";
@@ -6,6 +7,7 @@ const base = import.meta.env.BASE_URL || "/";
 export default function Layout({ children }) {
   return (
     <div className="app-shell">
+      <PageScrollbar />
       <header className="header glass">
         <a
           href="#top"

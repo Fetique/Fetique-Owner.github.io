@@ -10,8 +10,10 @@ import {
   faWandMagicSparkles
 } from "@fortawesome/free-solid-svg-icons";
 import LegalFold from "../components/LegalFold.jsx";
+import BrandStrip from "../components/BrandStrip.jsx";
+import ProcessSteps from "../components/ProcessSteps.jsx";
 import StampReveal from "../components/StampReveal.jsx";
-import { COMPANY, CONTACT, SERVICES, SITE_PHOTOS, TAGLINE, WORK_STEPS } from "../data/company.js";
+import { COMPANY, CONTACT, PROCESS_LEAD, SERVICES, SITE_PHOTOS, TAGLINE } from "../data/company.js";
 
 const base = import.meta.env.BASE_URL || "/";
 const workspaceSrc = `${base}${SITE_PHOTOS.workspace}`;
@@ -88,22 +90,16 @@ export default function LandingPage({ onOpenChannel }) {
         </div>
       </section>
 
-      <section id="process" className="section panel process-panel">
-        <h2 className="section-title" data-aos="fade-right">
+      <BrandStrip />
+
+      <section id="process" className="section panel process-panel process-panel--center">
+        <h2 className="section-title" data-aos="fade-up">
           Как работаем
         </h2>
         <p className="section-lead" data-aos="fade-up">
-          Простой путь от заявки до результата — без десятков созвонов и непонятных этапов.
+          {PROCESS_LEAD}
         </p>
-        <ol className="steps">
-          {WORK_STEPS.map((step, i) => (
-            <li key={step.n} className="step-card" data-aos="fade-up" data-aos-delay={i * 70}>
-              <span className="step-num">{step.n}</span>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-            </li>
-          ))}
-        </ol>
+        <ProcessSteps />
       </section>
 
       <section id="about" className="section about-section">
