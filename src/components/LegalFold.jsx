@@ -61,19 +61,23 @@ export default function LegalFold() {
             <div>
               <dt>Телефон</dt>
               <dd>
-                <a href={`tel:${CONTACT.phoneTel}`}>{CONTACT.phoneDisplay}</a>
+                <a href={`tel:${CONTACT.phoneTel}`} className="contact-glow contact-glow--slow">
+                  {CONTACT.phoneDisplay}
+                </a>
               </dd>
             </div>
             <div>
               <dt>Email</dt>
               <dd>
-                <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+                <a href={`mailto:${CONTACT.email}`} className="contact-glow contact-glow--fast">
+                  {CONTACT.email}
+                </a>
               </dd>
             </div>
           </dl>
           <p className="legal-note">
             По проектам —{" "}
-            <a href={CONTACT.projectsUrl} target="_blank" rel="noopener noreferrer">
+            <a href={CONTACT.projectsUrl} target="_blank" rel="noopener noreferrer" className="contact-glow">
               {CONTACT.projectsHandle}
             </a>
             .

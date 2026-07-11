@@ -5,3 +5,11 @@ dist/
 *.log
 .DS_Store
 Thumbs.db
+
+# Генерируются перед build (scripts/generate-seo.mjs)
+/razrabotka-sajta-i-lendinga/
+/dorabotka-i-podderzhka-sajta/
+/digital-oformlenie/
+/it-soprovozhdenie-dlya-biznesa/
+/portfolio/
+/faq/

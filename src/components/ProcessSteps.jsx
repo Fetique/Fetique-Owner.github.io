@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import ContactRichText from "./ContactRichText.jsx";
 import { WORK_STEPS } from "../data/company.js";
 
 const TICK_MS = 1050;
@@ -95,7 +96,7 @@ export default function ProcessSteps() {
           <li key={step.n} className={`step-card ${tick >= index + 1 ? "is-lit" : ""} ${fading ? "is-fading" : ""}`}>
             <span className="step-num">{step.n}</span>
             <h3>{step.title}</h3>
-            <p>{step.text}</p>
+            <p><ContactRichText text={step.text} /></p>
           </li>
         ))}
       </ol>

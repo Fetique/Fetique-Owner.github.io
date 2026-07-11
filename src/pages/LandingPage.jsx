@@ -6,13 +6,20 @@ import {
   faLayerGroup,
   faPaperPlane,
   faPhone,
+  faShareNodes,
   faScrewdriverWrench,
   faWandMagicSparkles
 } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import ServiceNav from "../components/ServiceNav.jsx";
+import SiteIndex from "../components/SiteIndex.jsx";
 import LegalFold from "../components/LegalFold.jsx";
 import BrandStrip from "../components/BrandStrip.jsx";
 import ProcessSteps from "../components/ProcessSteps.jsx";
 import StampReveal from "../components/StampReveal.jsx";
+import SeoHead from "../components/SeoHead.jsx";
+import { scrollToSection } from "../utils/scrollToSection.js";
 import { COMPANY, CONTACT, PROCESS_LEAD, SERVICES, SITE_PHOTOS, TAGLINE } from "../data/company.js";
 
 const base = import.meta.env.BASE_URL || "/";
@@ -21,7 +28,43 @@ const workspaceSrc = `${base}${SITE_PHOTOS.workspace}`;
 const SERVICE_ICONS = [faGlobe, faScrewdriverWrench, faWandMagicSparkles, faLayerGroup];
 
 export default function LandingPage({ onOpenChannel }) {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      window.setTimeout(() => scrollToSection(id), 150);
+    }
+  }, [location.hash]);
+
+  const homeJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        name: "ООО «Фетик»",
+        alternateName: ["Fetique", "Фетик"],
+        url: "https://fetique.com/",
+        email: "zero@fetique.com",
+        telephone: "+78007000048"
+      },
+      {
+        "@type": "WebSite",
+        name: "Fetique",
+        url: "https://fetique.com/"
+      }
+    ]
+  };
+
   return (
+    <>
+      <SeoHead
+        title="Fetique — разработка сайтов и digital для бизнеса"
+        description="Разработка сайтов и лендингов, доработка, поддержка и digital для бизнеса по России. Бесплатный звонок 8-800."
+        keywords="разработка сайта, лендинг для бизнеса, доработка сайта, поддержка сайта, digital для бизнеса, Fetique, ООО Фетик, fetique.com"
+        path="/"
+        jsonLd={homeJsonLd}
+      />
     <div id="top" className="landing">
       <section className="hero hero--sales mesh" data-aos="fade-up">
         <div className="hero-layout">
@@ -33,21 +76,43 @@ export default function LandingPage({ onOpenChannel }) {
               Сайты и <span className="text-gradient">digital</span> для бизнеса
             </h1>
             <p className="hero-lead">
-              Разработка, доработка и сопровождение сайтов и IT-задач для предпринимателей и компаний. Работаем
-              официально — для дела, а не формально. По всей России.
+              Разработка, доработка и сопровождение сайтов и IT-задач для предпринимателей и компаний. С понятными
+              сроками и одним контактом на связи. По всей России.
             </p>
             <p className="hero-tagline hero-tagline--sub">{TAGLINE}</p>
             <div className="hero-actions hero-actions--grid">
-              <a className="btn btn-primary" href={CONTACT.projectsUrl} target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faPaperPlane} /> Обсудить задачу
+              <a
+                className="btn btn-primary btn-primary--shine"
+                href={CONTACT.projectsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FontAwesomeIcon icon={faPaperPlane} />
+                <span className="btn-label">Обсудить задачу</span>
               </a>
-              <a className="btn btn-ghost" href={`tel:${CONTACT.phoneTel}`}>
-                <FontAwesomeIcon icon={faPhone} />
-                <span>{CONTACT.phoneDisplay}</span>
+              <a className="btn btn-contact" href={`tel:${CONTACT.phoneTel}`}>
+                <span className="btn-contact-icon" aria-hidden>
+                  <FontAwesomeIcon icon={faPhone} />
+                </span>
+                <span className="btn-contact-body">
+                  <span className="btn-contact-label">Телефон</span>
+                  <span className="contact-glow">{CONTACT.phoneDisplay}</span>
+                </span>
               </a>
-              <button type="button" className="btn btn-ghost btn-ghost--muted" onClick={onOpenChannel}>
-                Канал {CONTACT.channelHandle}
-              </button>
+              <a
+                className="btn btn-contact"
+                href={CONTACT.channelUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="btn-contact-icon" aria-hidden>
+                  <FontAwesomeIcon icon={faShareNodes} />
+                </span>
+                <span className="btn-contact-body">
+                  <span className="btn-contact-label">Канал</span>
+                  <span className="contact-glow contact-glow--fast">{CONTACT.channelHandle}</span>
+                </span>
+              </a>
             </div>
           </div>
           <figure className="hero-photo" data-aos="fade-up" data-aos-delay="80">
@@ -63,6 +128,8 @@ export default function LandingPage({ onOpenChannel }) {
         </div>
       </section>
 
+      <SiteIndex />
+
       <section id="services" className="section">
         <h2 className="section-title" data-aos="fade-right">
           Услуги
@@ -71,6 +138,7 @@ export default function LandingPage({ onOpenChannel }) {
           Если у вас нет сайта, он устарел или «не приносит заявки» — начнём с короткого разговора и предложим
           понятный формат работы.
         </p>
+        <ServiceNav />
         <div className="bento bento--services">
           {SERVICES.map((item, i) => (
             <article
@@ -85,6 +153,9 @@ export default function LandingPage({ onOpenChannel }) {
               <h3>{item.title}</h3>
               <p>{item.text}</p>
               <p className="bento-note">{item.note}</p>
+              <Link to={`/${item.slug}`} className="bento-more">
+                Подробнее <FontAwesomeIcon icon={faArrowRight} />
+              </Link>
             </article>
           ))}
         </div>
@@ -114,7 +185,7 @@ export default function LandingPage({ onOpenChannel }) {
               <p>
                 Не прячемся за безликим агентством: на связи по проектам —{" "}
                 <a
-                  className="inline-founder text-shimmer"
+                  className="inline-founder contact-glow"
                   href={CONTACT.projectsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -124,16 +195,20 @@ export default function LandingPage({ onOpenChannel }) {
                 . Лицо в рекламе не показываем — зато показываем процесс, результат и документы.
               </p>
               <p>
-                Берём и разовые задачи, и долгосрочные проекты — формат подбираем под вашу ситуацию. Официально,
-                с понятными сроками и одним контактом на связи.
+                Берём и разовые задачи, и долгосрочные проекты — формат подбираем под вашу ситуацию. Счёт и документы
+                — когда они нужны по задаче.
               </p>
             </div>
             <ul className="about-facts">
               <li>
-                <FontAwesomeIcon icon={faHandshake} /> Официально: ИНН {COMPANY.inn}
+                <FontAwesomeIcon icon={faHandshake} /> ИНН {COMPANY.inn}
               </li>
               <li>
-                <FontAwesomeIcon icon={faPhone} /> {CONTACT.phoneDisplay} — {CONTACT.phoneHint}
+                <FontAwesomeIcon icon={faPhone} />{" "}
+                <a href={`tel:${CONTACT.phoneTel}`} className="inline-link">
+                  <span className="contact-glow contact-glow--slow">{CONTACT.phoneDisplay}</span>
+                </a>{" "}
+                — {CONTACT.phoneHint}
               </li>
             </ul>
           </div>
@@ -163,27 +238,27 @@ export default function LandingPage({ onOpenChannel }) {
             rel="noopener noreferrer"
           >
             <span className="contact-tile-label">По задаче</span>
-            <span className="contact-tile-value text-shimmer">{CONTACT.projectsHandle}</span>
+            <span className="contact-tile-value contact-glow">{CONTACT.projectsHandle}</span>
             <span className="contact-tile-hint">Опишите запрос — ответим лично</span>
           </a>
 
           <a className="contact-tile" href={`tel:${CONTACT.phoneTel}`}>
             <span className="contact-tile-label">Телефон</span>
-            <span className="contact-tile-value text-shimmer text-shimmer--slow">{CONTACT.phoneDisplay}</span>
+            <span className="contact-tile-value contact-glow contact-glow--slow">{CONTACT.phoneDisplay}</span>
             <span className="contact-tile-hint">{CONTACT.phoneHint}</span>
           </a>
 
           <a className="contact-tile" href={`mailto:${CONTACT.email}`}>
             <span className="contact-tile-label">Почта</span>
-            <span className="contact-tile-value text-shimmer text-shimmer--slow">{CONTACT.email}</span>
+            <span className="contact-tile-value contact-glow contact-glow--slow">{CONTACT.email}</span>
             <span className="contact-tile-hint">Для документов и деловой переписки</span>
           </a>
 
-          <button type="button" className="contact-tile" onClick={onOpenChannel}>
+          <a className="contact-tile" href={CONTACT.channelUrl} target="_blank" rel="noopener noreferrer">
             <span className="contact-tile-label">Канал</span>
-            <span className="contact-tile-value">{CONTACT.channelHandle}</span>
+            <span className="contact-tile-value contact-glow contact-glow--fast">{CONTACT.channelHandle}</span>
             <span className="contact-tile-hint">Новости, кейсы, анонсы</span>
-          </button>
+          </a>
         </div>
 
         <p className="contact-cta-hint" data-aos="fade-up">
@@ -197,5 +272,6 @@ export default function LandingPage({ onOpenChannel }) {
         </div>
       </section>
     </div>
+    </>
   );
 }
