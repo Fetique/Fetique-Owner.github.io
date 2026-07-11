@@ -3255,14 +3255,19 @@ button.contact-tile {
   transition: border-color 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
 }
 
-.faq-item[open] {
+.faq-item.is-open {
   border-color: rgba(208, 172, 120, 0.42);
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
 }
 
-.faq-item summary {
+.faq-trigger {
   list-style: none;
   cursor: pointer;
+  width: 100%;
+  border: none;
+  background: transparent;
+  font: inherit;
+  text-align: left;
   padding: clamp(18px, 3vw, 22px);
   font-size: 1.02rem;
   font-weight: 700;
@@ -3274,17 +3279,12 @@ button.contact-tile {
   transition: color 0.3s, background 0.35s var(--ease-out);
 }
 
-.faq-item[open] summary {
+.faq-item.is-open .faq-trigger {
   color: var(--gold-pale);
   background: rgba(208, 172, 120, 0.05);
 }
 
-.faq-item summary::-webkit-details-marker {
-  display: none;
-}
-
-.faq-item summary::after {
-  content: "+";
+.faq-trigger-icon {
   flex-shrink: 0;
   width: 30px;
   height: 30px;
@@ -3299,11 +3299,18 @@ button.contact-tile {
   transition: transform 0.4s var(--ease-out), background 0.35s, border-color 0.35s;
 }
 
-.faq-item[open] summary::after {
-  content: "−";
+.faq-trigger-icon::before {
+  content: "+";
+}
+
+.faq-item.is-open .faq-trigger-icon {
   transform: rotate(180deg);
   background: rgba(208, 172, 120, 0.14);
   border-color: var(--gold);
+}
+
+.faq-item.is-open .faq-trigger-icon::before {
+  content: "−";
 }
 
 .faq-answer {
@@ -3312,21 +3319,22 @@ button.contact-tile {
   transition: grid-template-rows 0.45s var(--ease-out);
 }
 
-.faq-item[open] .faq-answer {
+.faq-item.is-open .faq-answer {
   grid-template-rows: 1fr;
 }
 
 .faq-answer-inner {
+  min-height: 0;
   overflow: hidden;
   padding: 0 clamp(18px, 3vw, 22px);
   color: var(--muted);
   line-height: 1.65;
   opacity: 0;
   transform: translateY(-6px);
-  transition: opacity 0.4s var(--ease-out), transform 0.45s var(--ease-out), padding 0.45s var(--ease-out);
+  transition: opacity 0.38s var(--ease-out), transform 0.45s var(--ease-out), padding 0.45s var(--ease-out);
 }
 
-.faq-item[open] .faq-answer-inner {
+.faq-item.is-open .faq-answer-inner {
   opacity: 1;
   transform: translateY(0);
   padding: 0 clamp(18px, 3vw, 22px) clamp(18px, 3vw, 22px);
@@ -3357,7 +3365,7 @@ button.contact-tile {
 @media (prefers-reduced-motion: reduce) {
   .faq-answer,
   .faq-answer-inner,
-  .faq-item summary::after {
+  .faq-trigger-icon {
     transition: none;
   }
 }

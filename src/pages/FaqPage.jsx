@@ -1,6 +1,6 @@
 import SeoHead from "../components/SeoHead.jsx";
 import ArticleLayout from "../components/ArticleLayout.jsx";
-import ContactRichText from "../components/ContactRichText.jsx";
+import FaqAccordion from "../components/FaqAccordion.jsx";
 import { getArticleBySlug, FAQ_ITEMS } from "../data/seoContent.js";
 
 export default function FaqPage() {
@@ -34,18 +34,7 @@ export default function FaqPage() {
         lead={article.lead}
         crumbs={[{ label: "Вопросы и ответы" }]}
       >
-        <div className="faq-list">
-          {FAQ_ITEMS.map((item, index) => (
-            <details key={item.q} className="faq-item panel" open={index === 0}>
-              <summary>{item.q}</summary>
-              <div className="faq-answer">
-                <div className="faq-answer-inner">
-                  <ContactRichText text={item.a} />
-                </div>
-              </div>
-            </details>
-          ))}
-        </div>
+        <FaqAccordion items={FAQ_ITEMS} />
       </ArticleLayout>
     </>
   );
