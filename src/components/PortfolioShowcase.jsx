@@ -9,8 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { PORTFOLIO_ITEMS, PORTFOLIO_STATUS } from "../data/portfolio.js";
 import { CONTACT } from "../data/company.js";
-
-const base = import.meta.env.BASE_URL || "/";
+import { publicAsset } from "../utils/publicAsset.js";
 
 function ProgressRing({ value, size = 56 }) {
   const r = (size - 6) / 2;
@@ -89,7 +88,7 @@ export default function PortfolioShowcase() {
   const rowItems = PORTFOLIO_ITEMS.filter((item) => item.id !== featured.id);
 
   const featuredStatus = PORTFOLIO_STATUS[featured.status];
-  const featuredImg = featured.image ? `${base}${featured.image}` : null;
+  const featuredImg = featured.image ? publicAsset(featured.image) : null;
 
   return (
     <div className="portfolio-showcase">
@@ -140,7 +139,7 @@ export default function PortfolioShowcase() {
         {rowItems.map((item, index) => {
           const status = PORTFOLIO_STATUS[item.status];
           const progress = item.progress ?? status.progress ?? 0;
-          const imgSrc = item.image ? `${base}${item.image}` : null;
+          const imgSrc = item.image ? publicAsset(item.image) : null;
 
           return (
             <article

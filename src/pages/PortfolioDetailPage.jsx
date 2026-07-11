@@ -4,12 +4,11 @@ import { faArrowLeft, faArrowUpRightFromSquare } from "@fortawesome/free-solid-s
 import SeoHead from "../components/SeoHead.jsx";
 import ArticleLayout from "../components/ArticleLayout.jsx";
 import { getPortfolioBySlug, PORTFOLIO_STATUS } from "../data/portfolio.js";
-
-const base = import.meta.env.BASE_URL || "/";
+import { publicAsset } from "../utils/publicAsset.js";
 
 function ProjectMedia({ media }) {
   if (!media?.src) return null;
-  const src = `${base}${media.src}`;
+  const src = publicAsset(media.src);
 
   if (media.type === "gif") {
     return (

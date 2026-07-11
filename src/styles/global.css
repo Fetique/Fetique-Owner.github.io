@@ -2992,6 +2992,7 @@ button.contact-tile {
   border-radius: calc(var(--radius) - 4px);
   overflow: hidden;
   border: 1px solid var(--stroke);
+  background: #0a0a0a;
 }
 
 .project-detail-media img {
