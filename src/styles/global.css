@@ -3253,7 +3253,8 @@ button.contact-tile {
 .faq-item {
   padding: 0;
   overflow: hidden;
-  transition: border-color 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+  contain: layout style;
+  transition: border-color 0.22s ease;
 }
 
 .faq-item.is-open {
@@ -3277,7 +3278,9 @@ button.contact-tile {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  transition: color 0.3s, background 0.35s var(--ease-out);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.2s ease, background 0.2s ease;
 }
 
 .faq-item.is-open .faq-trigger {
@@ -3297,7 +3300,9 @@ button.contact-tile {
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--gold);
-  transition: transform 0.4s var(--ease-out), background 0.35s, border-color 0.35s;
+  transform: rotate(0deg);
+  transition: transform 0.26s ease, background 0.2s ease, border-color 0.2s ease;
+  will-change: transform;
 }
 
 .faq-trigger-icon::before {
@@ -3315,30 +3320,36 @@ button.contact-tile {
 }
 
 .faq-answer {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.45s var(--ease-out);
-}
-
-.faq-item.is-open .faq-answer {
-  grid-template-rows: 1fr;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  contain: layout style paint;
 }
 
 .faq-answer-inner {
-  min-height: 0;
-  overflow: hidden;
-  padding: 0 clamp(18px, 3vw, 22px);
+  padding: 0 clamp(18px, 3vw, 22px) clamp(18px, 3vw, 22px);
   color: var(--muted);
   line-height: 1.65;
   opacity: 0;
-  transform: translateY(-6px);
-  transition: opacity 0.38s var(--ease-out), transform 0.45s var(--ease-out), padding 0.45s var(--ease-out);
+  transition: opacity 0.2s ease;
 }
 
 .faq-item.is-open .faq-answer-inner {
   opacity: 1;
-  transform: translateY(0);
-  padding: 0 clamp(18px, 3vw, 22px) clamp(18px, 3vw, 22px);
+}
+
+@media (max-width: 1024px) {
+  .faq-item.is-open {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  }
+
+  .faq-answer {
+    transition-duration: 0.24s;
+  }
+
+  .faq-trigger-icon {
+    will-change: auto;
+  }
 }
 
 .footer-seo {
