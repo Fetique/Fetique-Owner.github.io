@@ -3,7 +3,7 @@ import { SITE_ORIGIN } from "../data/seoRoutes.js";
 
 const DEFAULT_IMAGE = `${SITE_ORIGIN}/photos/workspace-dual.jpg`;
 
-export default function SeoHead({ title, description, keywords, path = "/", jsonLd = null }) {
+export default function SeoHead({ title, description, keywords, path = "/", jsonLd = null, noindex = false }) {
   useEffect(() => {
     document.title = title;
 
@@ -21,6 +21,7 @@ export default function SeoHead({ title, description, keywords, path = "/", json
 
     setMeta("description", description);
     setMeta("keywords", keywords);
+    setMeta("robots", noindex ? "noindex, nofollow" : "index, follow");
 
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) {
@@ -46,7 +47,7 @@ export default function SeoHead({ title, description, keywords, path = "/", json
       script.textContent = JSON.stringify(jsonLd);
       document.head.appendChild(script);
     }
-  }, [title, description, keywords, path, jsonLd]);
+  }, [title, description, keywords, path, jsonLd, noindex]);
 
   return null;
 }

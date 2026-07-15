@@ -188,6 +188,10 @@ a {
     radial-gradient(ellipse 40% 30% at 0% 80%, rgba(172, 130, 70, 0.06), transparent), var(--void);
 }
 
+.app-shell--bcards {
+  background: #121212;
+}
+
 .page-scrollbar {
   position: fixed;
   right: 10px;

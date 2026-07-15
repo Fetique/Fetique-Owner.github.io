@@ -7,6 +7,7 @@ import ServiceArticlePage from "./pages/ServiceArticlePage";
 import FaqPage from "./pages/FaqPage";
 import PortfolioPage from "./pages/PortfolioPage";
 import PortfolioDetailPage from "./pages/PortfolioDetailPage";
+import BusinessCardsPage from "./pages/BusinessCardsPage.jsx";
 import { useSiteReady } from "./hooks/useSiteReady.js";
 import { CONTACT } from "./data/company.js";
 
@@ -29,6 +30,7 @@ function AppRoutes({ onOpenChannel }) {
       <Route path="/faq" element={<FaqPage />} />
       <Route path="/portfolio" element={<PortfolioPage />} />
       <Route path="/portfolio/:slug" element={<PortfolioDetailPage />} />
+      <Route path="/vizitki" element={<BusinessCardsPage />} />
     </Routes>
   );
 }

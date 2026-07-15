@@ -8,6 +8,11 @@ const base = import.meta.env.BASE_URL || "/";
 export default function Layout({ children }) {
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const isBusinessCards = location.pathname === "/vizitki";
+
+  if (isBusinessCards) {
+    return <div className="app-shell app-shell--bcards">{children}</div>;
+  }
 
   return (
     <div className="app-shell">
