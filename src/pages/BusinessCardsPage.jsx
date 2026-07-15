@@ -1,6 +1,6 @@
 import QRCode from "react-qr-code";
 import SeoHead from "../components/SeoHead.jsx";
-import { CONTACT, TAGLINE } from "../data/company.js";
+import { COMPANY, CONTACT, SERVICES, TAGLINE } from "../data/company.js";
 import { publicAsset } from "../utils/publicAsset.js";
 import "../styles/business-cards.css";
 
@@ -16,155 +16,177 @@ function CardScaler({ label, children }) {
   );
 }
 
-function QrBlock({ size = 18, label = "fetique.com" }) {
+function CardChrome({ children, className = "" }) {
   return (
-    <>
+    <article className={`bcard ${className}`}>
+      <div className="bcard-mesh" aria-hidden />
+      <span className="bcard-frame" aria-hidden />
+      <span className="bcard-corner bcard-corner--tl" aria-hidden />
+      <span className="bcard-corner bcard-corner--tr" aria-hidden />
+      <span className="bcard-corner bcard-corner--bl" aria-hidden />
+      <span className="bcard-corner bcard-corner--br" aria-hidden />
+      {children}
+    </article>
+  );
+}
+
+function QrBlock({ pixels = 108 }) {
+  return (
+    <div className="bcard-qr">
       <QRCode
         value={SITE_URL}
-        size={size}
+        size={pixels}
         bgColor="#ffffff"
         fgColor="#0a0a0a"
         level="M"
         style={{ width: "100%", height: "auto", display: "block" }}
       />
-      <span>{label}</span>
-    </>
+      <span className="bcard-qr-label">fetique.com</span>
+    </div>
   );
 }
 
+function ContactBlock({ compact = false }) {
+  return (
+    <div className={`bcard-contacts${compact ? " bcard-contacts--compact" : ""}`}>
+      <div className="bcard-contact-row">
+        <span className="bcard-contact-key">Сайт</span>
+        <span className="bcard-contact-val">fetique.com</span>
+      </div>
+      <div className="bcard-contact-row">
+        <span className="bcard-contact-key">Почта</span>
+        <span className="bcard-contact-val">{CONTACT.email}</span>
+      </div>
+      <div className="bcard-contact-row">
+        <span className="bcard-contact-key">Телефон</span>
+        <span className="bcard-contact-val">
+          +7 800 700-00-48
+          {!compact ? <em>бесплатно по России</em> : null}
+        </span>
+      </div>
+      <div className="bcard-contact-row">
+        <span className="bcard-contact-key">Telegram</span>
+        <span className="bcard-contact-val">{CONTACT.projectsHandle}</span>
+      </div>
+    </div>
+  );
+}
+
+/** Вариант A — по ТЗ: логотип по центру, слоган Zero */
 function VariantAFront() {
   return (
-    <article className="bcard bcard-a-front">
-      <span className="bcard-frame" aria-hidden />
-      <span className="bcard-corner bcard-corner--tl" aria-hidden />
-      <span className="bcard-corner bcard-corner--tr" aria-hidden />
-      <span className="bcard-corner bcard-corner--bl" aria-hidden />
-      <span className="bcard-corner bcard-corner--br" aria-hidden />
-      <img src={LOGO} alt="" className="bcard-a-front-logo" width={56} height={56} />
-      <h2 className="bcard-a-front-brand bcard-gold">Fetique</h2>
-      <p className="bcard-a-front-tagline">
-        <strong>Zero:</strong> {TAGLINE}
-      </p>
-    </article>
+    <CardChrome className="bcard-a-front">
+      <div className="bcard-a-front-inner">
+        <img src={LOGO} alt="" className="bcard-logo bcard-logo--center" width={80} height={80} />
+        <h2 className="bcard-brand bcard-brand--center">Fetique</h2>
+        <span className="bcard-rule bcard-rule--center" aria-hidden />
+        <p className="bcard-tagline bcard-tagline--center">
+          <span className="bcard-zero">Zero:</span> {TAGLINE}
+        </p>
+        <p className="bcard-front-sub">Сайты · digital · IT для бизнеса</p>
+        <p className="bcard-front-legal">{COMPANY.shortName}</p>
+      </div>
+    </CardChrome>
   );
 }
 
 function VariantABack() {
   return (
-    <article className="bcard bcard-a-back">
-      <span className="bcard-frame" aria-hidden />
-      <div className="bcard-a-back-left">
-        <div className="bcard-a-back-qr">
-          <QrBlock />
-        </div>
-        <div>
-          <p className="bcard-a-back-founder">Основатель: Zero • Лукин Л. И.</p>
-          <div className="bcard-a-back-contact">
-            <strong>Связь</strong>
-            <div>
-              <span>Сайт: </span>
-              fetique.com
-            </div>
-            <div>
-              <span>Почта: </span>
-              {CONTACT.email}
-            </div>
-            <div>
-              <span>Телефон: </span>
-              +7 800 700 00 48
-            </div>
-            <div>
-              <span>Telegram: </span>
-              {CONTACT.projectsHandle}
-            </div>
+    <CardChrome className="bcard-a-back">
+      <div className="bcard-a-back-grid">
+        <div className="bcard-a-back-left">
+          <QrBlock pixels={100} />
+          <p className="bcard-scan-hint">Сканируйте — откроется сайт</p>
+          <div className="bcard-a-back-founder-block">
+            <p className="bcard-founder">Основатель: Zero • Лукин Л. И.</p>
+            <p className="bcard-founder-sub">Связь</p>
+            <ContactBlock compact />
           </div>
         </div>
+        <div className="bcard-a-back-right">
+          <p className="bcard-section-label">Услуги</p>
+          <p className="bcard-services-lead">
+            Разработка, доработка и сопровождение сайтов, IT-задач для предпринимателей и компаний.
+          </p>
+          <ul className="bcard-services-list">
+            {SERVICES.map((item) => (
+              <li key={item.slug}>
+                <strong>{item.title}</strong>
+                <span>{item.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-      <div className="bcard-a-back-services">
-        <h2>Услуги</h2>
-        <p>
-          Разработка, доработка и сопровождение сайтов, IT-задач для предпринимателей и компаний.
-        </p>
-      </div>
-    </article>
+    </CardChrome>
   );
 }
 
+/** Вариант B — премиум: плотная вёрстка, максимум информации */
 function VariantBFront() {
   return (
-    <article className="bcard bcard-b-front">
-      <span className="bcard-frame" aria-hidden />
-      <span className="bcard-frame bcard-frame--inner" aria-hidden />
-      <span className="bcard-corner bcard-corner--tl" aria-hidden />
-      <span className="bcard-corner bcard-corner--tr" aria-hidden />
-      <span className="bcard-corner bcard-corner--bl" aria-hidden />
-      <span className="bcard-corner bcard-corner--br" aria-hidden />
-      <div className="bcard-b-front-logo-wrap">
-        <img src={LOGO} alt="" className="bcard-b-front-logo" width={52} height={52} />
+    <CardChrome className="bcard-b-front">
+      <div className="bcard-b-front-grid">
+        <div className="bcard-b-logo-col">
+          <div className="bcard-logo-frame">
+            <img src={LOGO} alt="" className="bcard-logo" width={72} height={72} />
+          </div>
+        </div>
+        <div className="bcard-b-copy-col">
+          <p className="bcard-eyebrow">ООО «Фетик» · digital-студия</p>
+          <h2 className="bcard-brand">Fetique</h2>
+          <span className="bcard-rule" aria-hidden />
+          <p className="bcard-tagline">
+            <span className="bcard-zero">Zero:</span> {TAGLINE}
+          </p>
+          <p className="bcard-b-front-desc">
+            Разработка, доработка и сопровождение сайтов и IT-задач. Работаем по всей России.
+          </p>
+        </div>
       </div>
-      <div className="bcard-b-front-copy">
-        <h2 className="bcard-b-front-brand bcard-gold">Fetique</h2>
-        <span className="bcard-b-front-line" aria-hidden />
-        <p className="bcard-b-front-tagline">
-          <em>Zero:</em> {TAGLINE}
-        </p>
-        <p className="bcard-b-front-sub">Сайты · Digital · IT</p>
+      <div className="bcard-b-front-strip">
+        <span>fetique.com</span>
+        <span className="bcard-strip-dot" aria-hidden />
+        <span>{CONTACT.phoneDisplay}</span>
+        <span className="bcard-strip-dot" aria-hidden />
+        <span>{CONTACT.projectsHandle}</span>
       </div>
-    </article>
+    </CardChrome>
   );
 }
 
 function VariantBBack() {
   return (
-    <article className="bcard bcard-b-back">
-      <span className="bcard-frame" aria-hidden />
-      <div className="bcard-b-back-top">Digital для бизнеса · по всей России</div>
-      <div className="bcard-b-back-body">
-        <div className="bcard-b-back-qr-col">
-          <QrBlock size={15} />
+    <CardChrome className="bcard-b-back">
+      <div className="bcard-b-back-head">
+        <span>Digital для бизнеса</span>
+        <span className="bcard-strip-dot" aria-hidden />
+        <span>По всей России</span>
+      </div>
+      <div className="bcard-b-back-grid">
+        <div className="bcard-b-back-qr-wrap">
+          <QrBlock pixels={92} />
         </div>
-        <span className="bcard-b-back-divider" aria-hidden />
-        <div className="bcard-b-back-main">
-          <div className="bcard-b-services-grid">
-            <div className="bcard-b-service-item">
-              <strong>Сайт и лендинг</strong>
-              Разработка и обновление под задачу бизнеса
-            </div>
-            <div className="bcard-b-service-item">
-              <strong>Доработка</strong>
-              Правки, поддержка, новые блоки
-            </div>
-            <div className="bcard-b-service-item">
-              <strong>Digital</strong>
-              Единый стиль компании в сети
-            </div>
-            <div className="bcard-b-service-item">
-              <strong>IT-сопровождение</strong>
-              Задачи и консультации без штатного IT
-            </div>
+        <div className="bcard-b-back-services">
+          <p className="bcard-section-label">Что делаем</p>
+          <div className="bcard-b-service-grid">
+            {SERVICES.map((item) => (
+              <div key={item.slug} className="bcard-b-service-cell">
+                <strong>{item.title}</strong>
+                <span>{item.note}</span>
+              </div>
+            ))}
           </div>
-          <p className="bcard-b-back-founder">Zero • Лукин Л. И.</p>
         </div>
       </div>
-      <div className="bcard-b-back-footer">
-        <div>
-          <span>Сайт</span>
-          fetique.com
+      <div className="bcard-b-back-foot">
+        <div className="bcard-b-foot-founder">
+          <span className="bcard-section-label">Основатель</span>
+          <strong>Zero • Лукин Л. И.</strong>
         </div>
-        <div>
-          <span>Почта</span>
-          {CONTACT.email}
-        </div>
-        <div>
-          <span>Телефон</span>
-          +7 800 700 00 48
-        </div>
-        <div>
-          <span>Telegram</span>
-          {CONTACT.projectsHandle}
-        </div>
+        <ContactBlock compact />
       </div>
-    </article>
+    </CardChrome>
   );
 }
 
@@ -182,19 +204,19 @@ export default function BusinessCardsPage() {
         <header className="bcards-intro">
           <h1>Визитки Fetique · 90 × 50 мм</h1>
           <p>
-            Два варианта для референса на печать. Сделайте скриншот каждой стороны отдельно и передайте в типографию.
-            Физический размер макета: 9 см × 5 см, горизонтальная ориентация.
+            Два макета для типографии. Скриншот каждой стороны отдельно — лицевая и оборотная. На экране
+            карточка увеличена для чёткости; при печати размер <strong>90 × 50 мм</strong>, горизонтально.
           </p>
         </header>
 
         <section className="bcards-set">
-          <h2 className="bcards-set-title">Вариант A — по вашему ТЗ</h2>
-          <p className="bcards-set-note">Логотип по центру, слоган Zero, QR слева на обороте</p>
+          <h2 className="bcards-set-title">Вариант A — классика (по ТЗ)</h2>
+          <p className="bcards-set-note">Логотип и слоган по центру · QR и контакты слева на обороте</p>
           <div className="bcards-pair">
-            <CardScaler label="Лицевая сторона">
+            <CardScaler label="Лицевая">
               <VariantAFront />
             </CardScaler>
-            <CardScaler label="Оборотная сторона">
+            <CardScaler label="Оборотная">
               <VariantABack />
             </CardScaler>
           </div>
@@ -202,14 +224,12 @@ export default function BusinessCardsPage() {
 
         <section className="bcards-set">
           <h2 className="bcards-set-title">Вариант B — премиум (рекомендуем)</h2>
-          <p className="bcards-set-note">
-            Асимметричная лицевая, сетка услуг и контактная полоса на обороте
-          </p>
+          <p className="bcards-set-note">Плотная вёрстка · все услуги и контакты на обороте</p>
           <div className="bcards-pair">
-            <CardScaler label="Лицевая сторона">
+            <CardScaler label="Лицевая">
               <VariantBFront />
             </CardScaler>
-            <CardScaler label="Оборотная сторона">
+            <CardScaler label="Оборотная">
               <VariantBBack />
             </CardScaler>
           </div>
