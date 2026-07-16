@@ -2907,7 +2907,7 @@ button.contact-tile {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--muted);
+  color: rgba(208, 172, 120, 0.72);
 }
 
 .article-contact-chip-value {
@@ -2917,15 +2917,22 @@ button.contact-tile {
   margin: 0;
   padding-right: 0.35em;
   font-size: clamp(0.82rem, 2.2vw, 0.95rem);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.45;
   letter-spacing: 0;
-  color: var(--gold-pale);
-  -webkit-text-fill-color: var(--gold-pale);
+  background: linear-gradient(115deg, var(--gold-pale), var(--gold), var(--gold-rose));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: var(--gold);
+  -webkit-text-fill-color: transparent;
   white-space: normal;
   overflow: visible;
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+.article-contact-chip:hover .article-contact-chip-value {
+  filter: brightness(1.1);
 }
 
 /* Портфолио — showcase */
