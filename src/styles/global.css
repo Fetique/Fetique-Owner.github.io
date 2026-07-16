@@ -130,10 +130,14 @@ body::-webkit-scrollbar {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .text-shimmer {
+  .text-shimmer,
+  .contact-glow {
     animation: none !important;
-    color: var(--gold-pale) !important;
     background: none !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+    -webkit-text-fill-color: var(--gold-pale) !important;
+    color: var(--gold-pale) !important;
   }
   .company-stamp--stamped {
     opacity: 1 !important;
@@ -421,22 +425,17 @@ main {
   animation-duration: 3.2s;
 }
 
-/* Блик контактов — только на тёмном фоне, не на золотых кнопках */
+/*
+  Контакты — цветное золото без background-clip:text.
+  Clip ломается в Chromium внутри AOS (opacity/stacking context)
+  и текст становится «обычным», не золотым.
+*/
 .contact-glow {
   display: inline-block;
-  background: linear-gradient(
-    105deg,
-    var(--gold-deep) 0%,
-    var(--gold-pale) 42%,
-    #fff8f0 50%,
-    var(--gold-rose) 58%,
-    var(--gold) 100%
-  );
-  background-size: 220% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: text-shimmer 4.5s ease-in-out infinite;
+  background: none;
+  color: var(--gold-pale);
+  -webkit-text-fill-color: currentColor;
+  animation: contact-gold-pulse 4.5s ease-in-out infinite;
 }
 
 .contact-glow--slow {
@@ -445,6 +444,20 @@ main {
 
 .contact-glow--fast {
   animation-duration: 3.2s;
+}
+
+a.contact-glow,
+.inline-link.contact-glow,
+.legal-dl a.contact-glow {
+  color: var(--gold-pale);
+  -webkit-text-fill-color: currentColor;
+}
+
+a.contact-glow:hover,
+.inline-link.contact-glow:hover,
+.legal-dl a.contact-glow:hover {
+  color: var(--gold);
+  -webkit-text-fill-color: currentColor;
 }
 
 .btn-label {
@@ -471,6 +484,22 @@ main {
   }
   50% {
     background-position: 100% center;
+  }
+}
+
+@keyframes contact-gold-pulse {
+  0%,
+  100% {
+    color: var(--gold);
+  }
+  45% {
+    color: var(--gold-pale);
+  }
+  55% {
+    color: #fff8f0;
+  }
+  70% {
+    color: var(--gold-rose);
   }
 }
 
@@ -1718,12 +1747,14 @@ button.contact-tile {
     animation: none;
   }
 
-  .text-shimmer {
+  .text-shimmer,
+  .contact-glow {
     animation: none;
-    background: linear-gradient(115deg, var(--gold-pale), var(--gold), var(--gold-rose));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    -webkit-text-fill-color: var(--gold-pale);
+    color: var(--gold-pale);
   }
 
   main.main--landing {
@@ -2826,30 +2857,36 @@ button.contact-tile {
 }
 
 .article-contacts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   padding-top: 16px;
   border-top: 1px solid var(--stroke);
-}
-
-@media (min-width: 720px) {
-  .article-contacts {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
 }
 
 .article-contact-chip {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  flex: 1 1 calc(50% - 10px);
+  min-width: min(100%, 168px);
+  max-width: 100%;
+  box-sizing: border-box;
   padding: 12px 14px;
   border-radius: 12px;
   border: 1px solid var(--stroke);
   background: rgba(12, 12, 12, 0.55);
   text-decoration: none;
   color: inherit;
+  overflow: visible;
   transition: border-color 0.3s, transform 0.35s var(--ease-out);
+}
+
+@media (min-width: 720px) {
+  .article-contact-chip {
+    flex: 1 1 calc(25% - 10px);
+    min-width: min(100%, 200px);
+  }
 }
 
 @media (hover: hover) {
@@ -2865,6 +2902,23 @@ button.contact-tile {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
+}
+
+.article-contact-chip-value {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  padding-right: 0.2em;
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--gold-pale);
+  -webkit-text-fill-color: var(--gold-pale);
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 /* Портфолио — showcase */

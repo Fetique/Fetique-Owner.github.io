@@ -41,7 +41,7 @@ export default function ArticleLayout({ children, ctaText = "Обсудить з
               {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             >
               <span className="article-contact-chip-label">{item.label}</span>
-              <span className="contact-glow">{item.value}</span>
+              <span className="article-contact-chip-value">{item.value}</span>
             </a>
           ))}
         </div>
