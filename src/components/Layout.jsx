@@ -2,8 +2,9 @@ import { Link, useLocation } from "react-router-dom";
 import PageScrollbar from "./PageScrollbar.jsx";
 import SiteNav from "./SiteNav.jsx";
 import { COMPANY, CONTACT } from "../data/company.js";
+import { publicAsset } from "../utils/publicAsset.js";
 
-const base = import.meta.env.BASE_URL || "/";
+const logoSrc = publicAsset("logo.svg");
 
 export default function Layout({ children }) {
   const location = useLocation();
@@ -19,7 +20,7 @@ export default function Layout({ children }) {
       <PageScrollbar />
       <header className="header glass">
         <Link to="/" className="brand">
-          <img src={`${base}logo.svg`} alt="Fetique" className="brand-logo" width={52} height={52} />
+          <img src={logoSrc} alt="Fetique" className="brand-logo" width={52} height={52} />
           <span className="brand-name">Fetique</span>
         </Link>
         <SiteNav />

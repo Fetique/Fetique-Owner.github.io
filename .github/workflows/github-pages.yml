@@ -32,7 +32,8 @@ jobs:
       - name: Verify production build
         shell: bash
         run: |
-          grep -q './assets/' dist/index.html
+          grep -qE '(/|\\./)assets/' dist/index.html
+          grep -q '/assets/' dist/index.html
           if grep -q 'src/main.jsx' dist/index.html; then
             echo "ERROR: dist/index.html still references dev entry — build failed"
             exit 1

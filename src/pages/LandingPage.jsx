@@ -20,10 +20,10 @@ import ProcessSteps from "../components/ProcessSteps.jsx";
 import StampReveal from "../components/StampReveal.jsx";
 import SeoHead from "../components/SeoHead.jsx";
 import { scrollToSection } from "../utils/scrollToSection.js";
+import { publicAsset } from "../utils/publicAsset.js";
 import { COMPANY, CONTACT, PROCESS_LEAD, SERVICES, SITE_PHOTOS, TAGLINE } from "../data/company.js";
 
-const base = import.meta.env.BASE_URL || "/";
-const workspaceSrc = `${base}${SITE_PHOTOS.workspace}`;
+const workspaceSrc = publicAsset(SITE_PHOTOS.workspace);
 
 const SERVICE_ICONS = [faGlobe, faScrewdriverWrench, faWandMagicSparkles, faLayerGroup];
 

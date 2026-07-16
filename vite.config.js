@@ -29,9 +29,12 @@ function htmlInputs() {
   return entries;
 }
 
-/** `base: "./"` — корректные пути к ассетам на GitHub Pages. */
+/**
+ * Абсолютный base "/" — сайт на корне fetique.com.
+ * Относительный "./" ломал CSS/картинки после Ctrl+F5 на /faq/, /portfolio/ и т.п.
+ */
 export default defineConfig({
-  base: "./",
+  base: "/",
   plugins: [react()],
   build: {
     rollupOptions: {

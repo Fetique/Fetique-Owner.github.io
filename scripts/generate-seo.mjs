@@ -15,13 +15,7 @@ function escapeHtml(value) {
     .replace(/</g, "&lt;");
 }
 
-function assetPrefix(slug) {
-  const depth = slug.split("/").length;
-  return depth > 1 ? "../".repeat(depth) : "../";
-}
-
-function buildHtml({ title, description, keywords, canonical, slug }) {
-  const prefix = assetPrefix(slug || "x");
+function buildHtml({ title, description, keywords, canonical }) {
   return `<!doctype html>
 <html lang="ru">
   <head>
@@ -38,11 +32,11 @@ function buildHtml({ title, description, keywords, canonical, slug }) {
     <meta property="og:title" content="${escapeHtml(title)}" />
     <meta property="og:description" content="${escapeHtml(description)}" />
     <meta property="og:image" content="${origin}/photos/workspace-dual.jpg" />
-    <link rel="icon" type="image/svg+xml" href="${prefix}favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="${prefix}src/main.jsx"></script>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
 `;
@@ -74,8 +68,7 @@ for (const route of SEO_ROUTES) {
     path.join(dir, "index.html"),
     buildHtml({
       ...meta,
-      canonical: `${origin}${route.path}`,
-      slug: route.slug
+      canonical: `${origin}${route.path}`
     }),
     "utf8"
   );

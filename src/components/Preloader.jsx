@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { TAGLINE } from "../data/company.js";
+import { publicAsset } from "../utils/publicAsset.js";
 
 const MIN_MS = 2000;
 const FADE_MS = 750;
 const RING_R = 62;
 const RING_SIZE = 148;
 const RING_C = 2 * Math.PI * RING_R;
-const base = import.meta.env.BASE_URL || "/";
+const logoSrc = publicAsset("logo.svg");
 
 export default function Preloader({ mode, onBootFadeComplete }) {
   const [exiting, setExiting] = useState(false);
@@ -97,7 +98,7 @@ export default function Preloader({ mode, onBootFadeComplete }) {
               }}
             />
           </svg>
-          <img src={`${base}logo.svg`} alt="" className="preloader-logo" width={80} height={80} />
+          <img src={logoSrc} alt="" className="preloader-logo" width={80} height={80} />
         </div>
 
         <p className="preloader-brand text-gradient">{label}</p>

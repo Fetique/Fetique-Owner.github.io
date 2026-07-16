@@ -1,7 +1,8 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { COMPANY, APRIL_BADGE_HINT } from "../data/company.js";
+import { publicAsset } from "../utils/publicAsset.js";
 
-const base = import.meta.env.BASE_URL || "/";
+const printSrc = publicAsset("print.png");
 
 export default function StampReveal({ children }) {
   const blockRef = useRef(null);
@@ -69,7 +70,7 @@ export default function StampReveal({ children }) {
         </button>
         <div className="stamp-glow" aria-hidden />
         <img
-          src={`${base}print.png`}
+          src={printSrc}
           alt=""
           className={`company-stamp ${stamped ? "company-stamp--stamped" : ""}`}
           width={400}
