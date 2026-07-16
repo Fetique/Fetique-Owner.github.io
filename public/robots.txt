@@ -1,15 +1,12 @@
 # Fetique - https://fetique.com
 User-agent: *
 Allow: /
-Disallow: /vizitki
 
 User-agent: Yandex
 Allow: /
-Disallow: /vizitki
 Host: https://fetique.com
 
 User-agent: Googlebot
 Allow: /
-Disallow: /vizitki
 
 Sitemap: https://fetique.com/sitemap.xml
