@@ -133,11 +133,16 @@ body::-webkit-scrollbar {
   .text-shimmer,
   .contact-glow {
     animation: none !important;
-    background: none !important;
-    -webkit-background-clip: border-box !important;
-    background-clip: border-box !important;
-    -webkit-text-fill-color: var(--gold-pale) !important;
-    color: var(--gold-pale) !important;
+    background: linear-gradient(115deg, var(--gold-pale), var(--gold), var(--gold-rose)) !important;
+    background-size: 100% 100% !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+  }
+  .brand-name,
+  .text-gradient {
+    -webkit-text-fill-color: transparent !important;
   }
   .company-stamp--stamped {
     opacity: 1 !important;
@@ -318,6 +323,7 @@ a {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 .nav-top {
@@ -414,6 +420,7 @@ main {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
   animation: text-shimmer 4.5s ease-in-out infinite;
 }
 
@@ -425,32 +432,58 @@ main {
   animation-duration: 3.2s;
 }
 
-/* Контакты — стабильное золото (без clip и тяжёлой анимации) */
+/* Блик контактов — золотой градиент (в CTA-чипах статей не используется) */
 .contact-glow {
   display: inline-block;
-  background: none;
-  color: var(--gold-pale);
-  -webkit-text-fill-color: var(--gold-pale);
-  animation: none;
+  background: linear-gradient(
+    105deg,
+    var(--gold-deep) 0%,
+    var(--gold-pale) 42%,
+    #fff8f0 50%,
+    var(--gold-rose) 58%,
+    var(--gold) 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 4.5s ease-in-out infinite;
 }
 
-.contact-glow--slow,
+.contact-glow--slow {
+  animation-duration: 7s;
+}
+
 .contact-glow--fast {
-  animation: none;
+  animation-duration: 3.2s;
 }
 
 a.contact-glow,
 .inline-link.contact-glow,
-.legal-dl a.contact-glow {
-  color: var(--gold-pale);
-  -webkit-text-fill-color: var(--gold-pale);
+.legal-dl a.contact-glow,
+.legal-note a.contact-glow {
+  background: linear-gradient(
+    105deg,
+    var(--gold-deep) 0%,
+    var(--gold-pale) 42%,
+    #fff8f0 50%,
+    var(--gold-rose) 58%,
+    var(--gold) 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 4.5s ease-in-out infinite;
 }
 
 a.contact-glow:hover,
 .inline-link.contact-glow:hover,
-.legal-dl a.contact-glow:hover {
-  color: var(--gold);
-  -webkit-text-fill-color: var(--gold);
+.legal-dl a.contact-glow:hover,
+.legal-note a.contact-glow:hover {
+  filter: brightness(1.12);
 }
 
 .btn-label {
@@ -485,6 +518,7 @@ a.contact-glow:hover,
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 .landing {
@@ -1416,7 +1450,8 @@ button.contact-tile {
 .legal-name {
   margin: 0 0 20px;
   font-size: 1.05rem;
-  color: var(--muted);
+  font-weight: 700;
+  color: var(--gold-pale);
   line-height: 1.6;
 }
 
@@ -1453,17 +1488,20 @@ button.contact-tile {
 .legal-dl dd {
   margin: 0;
   font-size: 1.08rem;
-  font-weight: 600;
-  color: var(--text);
+  font-weight: 700;
+  color: var(--gold-pale);
   line-height: 1.55;
 }
 
-.legal-dl a {
-  color: var(--gold-pale);
+.legal-dl a,
+.legal-dl a.contact-glow {
+  font-weight: 700;
+  text-decoration: none;
 }
 
-.legal-dl a:hover {
-  color: var(--gold);
+.legal-dl a:hover,
+.legal-dl a.contact-glow:hover {
+  filter: brightness(1.12);
 }
 
 .legal-note {
@@ -1727,11 +1765,12 @@ button.contact-tile {
   .text-shimmer,
   .contact-glow {
     animation: none;
-    background: none;
-    -webkit-background-clip: border-box;
-    background-clip: border-box;
-    -webkit-text-fill-color: var(--gold-pale);
-    color: var(--gold-pale);
+    background: linear-gradient(115deg, var(--gold-pale), var(--gold), var(--gold-rose));
+    background-size: 100% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
   main.main--landing {
@@ -3541,17 +3580,4 @@ button.contact-tile {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
-.legal-dl a {
-  color: var(--gold);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.legal-dl a:hover {
-  color: var(--gold-pale);
-  text-decoration: underline;
-}
-
-
 
