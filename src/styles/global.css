@@ -231,7 +231,8 @@ a {
   overflow: hidden;
   background: linear-gradient(180deg, var(--gold-deep), var(--gold), var(--gold-rose));
   box-shadow: 0 0 14px rgba(208, 172, 120, 0.35);
-  will-change: transform, height;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
 }
 
 .page-scrollbar-shine {
@@ -1592,7 +1593,6 @@ button.contact-tile {
   stroke: url(#preloaderGrad);
   stroke-width: 3;
   stroke-linecap: round;
-  transition: stroke-dashoffset 0.12s linear;
 }
 
 .preloader-logo-wrap::before {
@@ -1691,10 +1691,6 @@ button.contact-tile {
     --text-lg: 1.0625rem;
   }
 
-  .text-shimmer {
-    animation-duration: 7.5s;
-  }
-
   .preloader-mesh {
     animation: none;
     opacity: 0.45;
@@ -1703,6 +1699,31 @@ button.contact-tile {
   .preloader-orbit .orbit-dot {
     animation: none;
     opacity: 0.4;
+  }
+
+  .preloader-grain {
+    display: none;
+  }
+
+  .preloader-logo {
+    filter: drop-shadow(0 0 18px rgba(208, 172, 120, 0.4));
+  }
+
+  .preloader-logo-wrap::before {
+    animation: none;
+    opacity: 0.75;
+  }
+
+  .page-scrollbar-shine {
+    animation: none;
+  }
+
+  .text-shimmer {
+    animation: none;
+    background: linear-gradient(115deg, var(--gold-pale), var(--gold), var(--gold-rose));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   main.main--landing {
@@ -3306,7 +3327,6 @@ button.contact-tile {
   color: var(--gold);
   transform: rotate(0deg);
   transition: transform 0.26s ease, background 0.2s ease, border-color 0.2s ease;
-  will-change: transform;
 }
 
 .faq-trigger-icon::before {
@@ -3323,14 +3343,20 @@ button.contact-tile {
   content: "−";
 }
 
+/* grid 0fr/1fr — плавнее height-анимации, без layout thrashing */
 .faq-answer {
-  height: 0;
-  overflow: hidden;
-  transition: height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-  contain: layout style paint;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq-item.is-open .faq-answer {
+  grid-template-rows: 1fr;
 }
 
 .faq-answer-inner {
+  overflow: hidden;
+  min-height: 0;
   padding: 0 clamp(18px, 3vw, 22px) clamp(18px, 3vw, 22px);
   color: var(--muted);
   line-height: 1.65;
@@ -3348,11 +3374,26 @@ button.contact-tile {
   }
 
   .faq-answer {
-    transition-duration: 0.24s;
+    transition-duration: 0.22s;
   }
 
-  .faq-trigger-icon {
-    will-change: auto;
+  .faq-answer-inner {
+    transition-duration: 0.16s;
+  }
+}
+
+@media (pointer: coarse) {
+  .faq-item.is-open {
+    box-shadow: none;
+  }
+
+  .faq-answer {
+    transition-duration: 0.2s;
+  }
+
+  .faq-answer-inner {
+    transition: none;
+    opacity: 1;
   }
 }
 

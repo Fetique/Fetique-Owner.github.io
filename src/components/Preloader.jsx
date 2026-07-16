@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TAGLINE } from "../data/company.js";
 
 const MIN_MS = 2000;
@@ -10,12 +10,11 @@ const base = import.meta.env.BASE_URL || "/";
 
 export default function Preloader({ mode, onBootFadeComplete }) {
   const [exiting, setExiting] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const progressCircleRef = useRef(null);
 
   useEffect(() => {
     if (mode !== "boot") return undefined;
     setExiting(false);
-    setProgress(0);
 
     const start = performance.now();
     let frame = 0;
@@ -23,11 +22,14 @@ export default function Preloader({ mode, onBootFadeComplete }) {
     const tick = (now) => {
       const elapsed = now - start;
       const p = Math.min(100, (elapsed / (MIN_MS - 200)) * 100);
-      setProgress(p);
+      const circle = progressCircleRef.current;
+      if (circle) {
+        circle.style.strokeDashoffset = String(RING_C - (RING_C * p) / 100);
+      }
       if (elapsed < MIN_MS) {
         frame = requestAnimationFrame(tick);
       } else {
-        setProgress(100);
+        if (circle) circle.style.strokeDashoffset = "0";
         setExiting(true);
       }
     };
@@ -84,13 +86,14 @@ export default function Preloader({ mode, onBootFadeComplete }) {
               r={RING_R}
             />
             <circle
+              ref={progressCircleRef}
               className="preloader-ring-progress"
               cx={RING_SIZE / 2}
               cy={RING_SIZE / 2}
               r={RING_R}
               style={{
                 strokeDasharray: RING_C,
-                strokeDashoffset: RING_C - (RING_C * progress) / 100
+                strokeDashoffset: RING_C,
               }}
             />
           </svg>

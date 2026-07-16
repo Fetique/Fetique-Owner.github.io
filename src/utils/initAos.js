@@ -8,14 +8,16 @@ export function initAos() {
 
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const coarse = window.matchMedia("(pointer: coarse)").matches;
+  const narrow = window.matchMedia("(max-width: 768px)").matches;
+  const mobile = coarse || narrow;
 
   AOS.init({
-    duration: reduced ? 0 : coarse ? 650 : 850,
+    duration: reduced ? 0 : mobile ? 480 : 750,
     once: true,
     easing: "ease-out-cubic",
-    offset: coarse ? 32 : 48,
-    disable: reduced ? true : false,
-    throttleDelay: coarse ? 120 : 80,
-    debounceDelay: coarse ? 80 : 50
+    offset: mobile ? 24 : 48,
+    disable: reduced,
+    throttleDelay: mobile ? 160 : 80,
+    debounceDelay: mobile ? 100 : 50,
   });
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function getHeaderOffset() {
   const header = document.querySelector(".header");
@@ -23,40 +23,56 @@ function getMetrics() {
     trackHeight,
     thumbTop,
     thumbHeight,
-    visible: scrollHeight > clientHeight + 8
+    visible: scrollHeight > clientHeight + 8,
   };
 }
 
+/** Кастомный скроллбар: обновляет DOM напрямую, без React re-render на каждый scroll */
 export default function PageScrollbar() {
-  const [metrics, setMetrics] = useState(getMetrics);
+  const rootRef = useRef(null);
+  const thumbRef = useRef(null);
+  const visibleRef = useRef(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    function update() {
-      setMetrics(getMetrics());
+    let raf = 0;
+
+    function apply() {
+      const m = getMetrics();
+      if (m.visible !== visibleRef.current) {
+        visibleRef.current = m.visible;
+        setVisible(m.visible);
+      }
+      const root = rootRef.current;
+      const thumb = thumbRef.current;
+      if (!root || !thumb || !m.visible) return;
+      root.style.top = `${m.topOffset}px`;
+      root.style.height = `${m.trackHeight}px`;
+      thumb.style.height = `${m.thumbHeight}px`;
+      thumb.style.transform = `translate3d(0, ${m.thumbTop}px, 0)`;
     }
 
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    function schedule() {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(apply);
+    }
+
+    apply();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
     return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
     };
   }, []);
 
-  if (!metrics.visible) return null;
+  if (!visible) return null;
 
   return (
-    <div
-      className="page-scrollbar"
-      style={{ top: `${metrics.topOffset}px`, height: `${metrics.trackHeight}px` }}
-      aria-hidden
-    >
+    <div ref={rootRef} className="page-scrollbar" aria-hidden>
       <div className="page-scrollbar-track" />
-      <div
-        className="page-scrollbar-thumb"
-        style={{ transform: `translateY(${metrics.thumbTop}px)`, height: `${metrics.thumbHeight}px` }}
-      >
+      <div ref={thumbRef} className="page-scrollbar-thumb">
         <span className="page-scrollbar-shine" />
       </div>
     </div>
