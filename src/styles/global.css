@@ -2910,9 +2910,11 @@ button.contact-tile {
   color: rgba(208, 172, 120, 0.72);
 }
 
-.article-contact-chip-value {
+.article-contact-chip-value,
+.article-contact-chip-value.contact-glow {
   display: block;
   width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
   margin: 0;
   padding-right: 0.35em;
@@ -2920,11 +2922,6 @@ button.contact-tile {
   font-weight: 800;
   line-height: 1.45;
   letter-spacing: 0;
-  background: linear-gradient(115deg, var(--gold-pale), var(--gold), var(--gold-rose));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: var(--gold);
-  -webkit-text-fill-color: transparent;
   white-space: normal;
   overflow: visible;
   overflow-wrap: anywhere;

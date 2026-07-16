@@ -41,7 +41,7 @@ export default function ArticleLayout({ children, ctaText = "Обсудить з
               {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             >
               <span className="article-contact-chip-label">{item.label}</span>
-              <span className="article-contact-chip-value">
+              <span className="article-contact-chip-value contact-glow">
                 {item.label === "Почта" ? (
                   <>
                     zero@fetique.
