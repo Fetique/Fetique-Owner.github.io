@@ -39,6 +39,10 @@ jobs:
           fi
           test -f dist/yandex_6ce789ef6c3d3a42.html || (echo "ERROR: Yandex verification file missing from dist" && exit 1)
           grep -q 'Verification: 6ce789ef6c3d3a42' dist/yandex_6ce789ef6c3d3a42.html
+          test -f dist/robots.txt || (echo "ERROR: robots.txt missing from dist" && exit 1)
+          grep -q 'Sitemap: https://fetique.com/sitemap.xml' dist/robots.txt
+          grep -q 'Host: https://fetique.com' dist/robots.txt
+          test -f dist/sitemap.xml || (echo "ERROR: sitemap.xml missing from dist" && exit 1)
 
       - name: Deploy built site to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4

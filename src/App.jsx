@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Layout from "./components/Layout";
 import Preloader from "./components/Preloader";
@@ -7,12 +7,16 @@ import ServiceArticlePage from "./pages/ServiceArticlePage";
 import FaqPage from "./pages/FaqPage";
 import PortfolioPage from "./pages/PortfolioPage";
 import PortfolioDetailPage from "./pages/PortfolioDetailPage";
-import BusinessCardsPage from "./pages/BusinessCardsPage.jsx";
 import { useSiteReady } from "./hooks/useSiteReady.js";
 import { CONTACT } from "./data/company.js";
 
+/** Визитки только в локальной разработке — в прод не попадают */
+const BusinessCardsPage = import.meta.env.DEV
+  ? lazy(() => import("./pages/BusinessCardsPage.jsx"))
+  : null;
+
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const pathname = useLocation().pathname;
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -30,7 +34,16 @@ function AppRoutes({ onOpenChannel }) {
       <Route path="/faq" element={<FaqPage />} />
       <Route path="/portfolio" element={<PortfolioPage />} />
       <Route path="/portfolio/:slug" element={<PortfolioDetailPage />} />
-      <Route path="/vizitki" element={<BusinessCardsPage />} />
+      {BusinessCardsPage ? (
+        <Route
+          path="/vizitki"
+          element={
+            <Suspense fallback={null}>
+              <BusinessCardsPage />
+            </Suspense>
+          }
+        />
+      ) : null}
     </Routes>
   );
 }
