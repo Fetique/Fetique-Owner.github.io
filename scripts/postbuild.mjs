@@ -12,7 +12,39 @@ if (!fs.existsSync(index)) {
   process.exit(1);
 }
 
+/**
+ * Vite с base: "./" пишет ./assets и ../assets.
+ * Нормализуем HTML на абсолютные /assets/..., чтобы Ctrl+F5 на /faq/ не ронял стили.
+ */
+function rewriteHtmlToAbsolute(html) {
+  return html
+    .replace(/(src|href)="\.\/assets\//g, '$1="/assets/')
+    .replace(/(src|href)="(?:\.\.\/)+assets\//g, '$1="/assets/')
+    .replace(/(src|href)="\.\/(favicon\.svg|logo\.svg)/g, '$1="/$2')
+    .replace(/(src|href)="(?:\.\.\/)+(favicon\.svg|logo\.svg)/g, '$1="/$2');
+}
+
+function walkHtmlFiles(dir, out = []) {
+  for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, ent.name);
+    if (ent.isDirectory()) walkHtmlFiles(full, out);
+    else if (ent.name.endsWith(".html")) out.push(full);
+  }
+  return out;
+}
+
+let rewritten = 0;
+for (const file of walkHtmlFiles(dist)) {
+  const before = fs.readFileSync(file, "utf8");
+  const after = rewriteHtmlToAbsolute(before);
+  if (after !== before) {
+    fs.writeFileSync(file, after, "utf8");
+    rewritten += 1;
+  }
+}
+
 fs.copyFileSync(index, fallback);
+fs.writeFileSync(fallback, rewriteHtmlToAbsolute(fs.readFileSync(fallback, "utf8")), "utf8");
 
 const sitemap = path.join(dist, "sitemap.xml");
 if (!fs.existsSync(sitemap)) {
@@ -22,7 +54,7 @@ if (!fs.existsSync(sitemap)) {
 
 const robots = path.join(dist, "robots.txt");
 if (!fs.existsSync(robots)) {
-  console.error("postbuild: dist/robots.txt missing");
+  console.error("postbuild: robots.txt missing");
   process.exit(1);
 }
 
@@ -36,4 +68,14 @@ if (!robotsBody.includes("Host: https://fetique.com")) {
   process.exit(1);
 }
 
-console.log("postbuild: 404.html SPA fallback ready; robots.txt OK");
+const sample = fs.readFileSync(index, "utf8");
+if (!sample.includes('src="/assets/')) {
+  console.error("postbuild: absolute /assets/ not found in dist/index.html");
+  process.exit(1);
+}
+if (sample.includes('src="./assets/') || sample.includes('href="./assets/')) {
+  console.error("postbuild: relative ./assets/ still present in dist/index.html");
+  process.exit(1);
+}
+
+console.log(`postbuild: rewrote ${rewritten} HTML to absolute /assets/; 404.html ready`);

@@ -32,8 +32,11 @@ jobs:
       - name: Verify production build
         shell: bash
         run: |
-          grep -qE '(/|\\./)assets/' dist/index.html
-          grep -q '/assets/' dist/index.html
+          grep -qE 'src="/assets/|href="/assets/' dist/index.html
+          if grep -qE 'src="\\./assets/|href="\\./assets/' dist/index.html; then
+            echo "ERROR: relative ./assets/ left in dist/index.html — postbuild rewrite failed"
+            exit 1
+          fi
           if grep -q 'src/main.jsx' dist/index.html; then
             echo "ERROR: dist/index.html still references dev entry — build failed"
             exit 1

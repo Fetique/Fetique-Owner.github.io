@@ -425,39 +425,32 @@ main {
   animation-duration: 3.2s;
 }
 
-/*
-  Контакты — цветное золото без background-clip:text.
-  Clip ломается в Chromium внутри AOS (opacity/stacking context)
-  и текст становится «обычным», не золотым.
-*/
+/* Контакты — стабильное золото (без clip и тяжёлой анимации) */
 .contact-glow {
   display: inline-block;
   background: none;
   color: var(--gold-pale);
-  -webkit-text-fill-color: currentColor;
-  animation: contact-gold-pulse 4.5s ease-in-out infinite;
+  -webkit-text-fill-color: var(--gold-pale);
+  animation: none;
 }
 
-.contact-glow--slow {
-  animation-duration: 7s;
-}
-
+.contact-glow--slow,
 .contact-glow--fast {
-  animation-duration: 3.2s;
+  animation: none;
 }
 
 a.contact-glow,
 .inline-link.contact-glow,
 .legal-dl a.contact-glow {
   color: var(--gold-pale);
-  -webkit-text-fill-color: currentColor;
+  -webkit-text-fill-color: var(--gold-pale);
 }
 
 a.contact-glow:hover,
 .inline-link.contact-glow:hover,
 .legal-dl a.contact-glow:hover {
   color: var(--gold);
-  -webkit-text-fill-color: currentColor;
+  -webkit-text-fill-color: var(--gold);
 }
 
 .btn-label {
@@ -484,22 +477,6 @@ a.contact-glow:hover,
   }
   50% {
     background-position: 100% center;
-  }
-}
-
-@keyframes contact-gold-pulse {
-  0%,
-  100% {
-    color: var(--gold);
-  }
-  45% {
-    color: var(--gold-pale);
-  }
-  55% {
-    color: #fff8f0;
-  }
-  70% {
-    color: var(--gold-rose);
   }
 }
 
