@@ -529,8 +529,8 @@ a.contact-glow:hover,
 }
 
 .landing > section {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 420px;
+  /* content-visibility ломает background-clip:text (золотой блик) в Chromium */
+  content-visibility: visible;
 }
 
 .hero {
@@ -2912,8 +2912,8 @@ button.contact-tile {
 
 .article-contact-chip-value,
 .article-contact-chip-value.contact-glow {
-  display: block;
-  width: 100%;
+  display: inline-block;
+  width: auto;
   max-width: 100%;
   box-sizing: border-box;
   margin: 0;
@@ -2926,6 +2926,20 @@ button.contact-tile {
   overflow: visible;
   overflow-wrap: anywhere;
   word-break: break-word;
+  background: linear-gradient(
+    105deg,
+    var(--gold-deep) 0%,
+    var(--gold-pale) 42%,
+    #fff8f0 50%,
+    var(--gold-rose) 58%,
+    var(--gold) 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 4.5s ease-in-out infinite;
 }
 
 .article-contact-chip:hover .article-contact-chip-value {

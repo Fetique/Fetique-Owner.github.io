@@ -33,7 +33,7 @@ jobs:
         shell: bash
         run: |
           grep -qE 'src="/assets/|href="/assets/' dist/index.html
-          if grep -qE 'src="\\./assets/|href="\\./assets/' dist/index.html; then
+          if grep -qE 'src="\./assets/|href="\./assets/' dist/index.html; then
             echo "ERROR: relative ./assets/ left in dist/index.html — postbuild rewrite failed"
             exit 1
           fi
@@ -45,8 +45,12 @@ jobs:
           grep -q 'Verification: 6ce789ef6c3d3a42' dist/yandex_6ce789ef6c3d3a42.html
           test -f dist/robots.txt || (echo "ERROR: robots.txt missing from dist" && exit 1)
           grep -q 'Sitemap: https://fetique.com/sitemap.xml' dist/robots.txt
-          grep -q 'Host: https://fetique.com' dist/robots.txt
+          if grep -qiE '^Host:' dist/robots.txt; then
+            echo "ERROR: obsolete Host directive in robots.txt — remove it for Yandex Webmaster"
+            exit 1
+          fi
           test -f dist/sitemap.xml || (echo "ERROR: sitemap.xml missing from dist" && exit 1)
+          test -f dist/.nojekyll || (echo "ERROR: .nojekyll missing from dist" && exit 1)
 
       - name: Deploy built site to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4

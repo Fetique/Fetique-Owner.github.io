@@ -29,9 +29,9 @@ function htmlInputs() {
   return entries;
 }
 
-/** `base: "./"` — как раньше; абсолютные URL дописывает postbuild. */
+/** Абсолютный base "/" — сайт на корне fetique.com; так Ctrl+F5 не ломает CSS/JS. */
 export default defineConfig({
-  base: "./",
+  base: "/",
   plugins: [react()],
   build: {
     rollupOptions: {

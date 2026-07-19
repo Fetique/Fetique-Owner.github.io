@@ -63,9 +63,14 @@ if (!robotsBody.includes("Sitemap: https://fetique.com/sitemap.xml")) {
   console.error("postbuild: robots.txt missing Sitemap URL");
   process.exit(1);
 }
-if (!robotsBody.includes("Host: https://fetique.com")) {
-  console.error("postbuild: robots.txt missing Host for Yandex");
+if (/^Host:/im.test(robotsBody)) {
+  console.error("postbuild: obsolete Host directive in robots.txt — remove for Yandex");
   process.exit(1);
+}
+
+const nojekyll = path.join(dist, ".nojekyll");
+if (!fs.existsSync(nojekyll)) {
+  fs.writeFileSync(nojekyll, "", "utf8");
 }
 
 const sample = fs.readFileSync(index, "utf8");
