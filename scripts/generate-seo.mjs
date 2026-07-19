@@ -64,11 +64,12 @@ for (const route of SEO_ROUTES) {
 
   const dir = path.join(root, ...route.slug.split("/"));
   fs.mkdirSync(dir, { recursive: true });
+  const canonicalPath = route.path === "/" ? "/" : route.path.endsWith("/") ? route.path : `${route.path}/`;
   fs.writeFileSync(
     path.join(dir, "index.html"),
     buildHtml({
       ...meta,
-      canonical: `${origin}${route.path}`
+      canonical: `${origin}${canonicalPath}`
     }),
     "utf8"
   );
@@ -76,13 +77,14 @@ for (const route of SEO_ROUTES) {
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${SEO_ROUTES.map(
-  (route) => `  <url>
-    <loc>${origin}${route.path === "/" ? "/" : route.path}</loc>
+${SEO_ROUTES.map((route) => {
+  const path = route.path === "/" ? "/" : route.path.endsWith("/") ? route.path : `${route.path}/`;
+  return `  <url>
+    <loc>${origin}${path}</loc>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
-  </url>`
-).join("\n")}
+  </url>`;
+}).join("\n")}
 </urlset>
 `;
 
