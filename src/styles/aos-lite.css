@@ -1,0 +1,56 @@
+/* Минимальный AOS — только fade-up / fade-right, без битых delay-правил библиотеки */
+[data-aos] {
+  pointer-events: none;
+  transition-property: opacity, transform;
+  transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition-duration: 0.75s;
+}
+
+[data-aos].aos-animate {
+  pointer-events: auto;
+}
+
+[data-aos="fade-up"] {
+  opacity: 0;
+  transform: translate3d(0, 40px, 0);
+}
+
+[data-aos="fade-up"].aos-animate {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+[data-aos="fade-right"] {
+  opacity: 0;
+  transform: translate3d(-40px, 0, 0);
+}
+
+[data-aos="fade-right"].aos-animate {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+[data-aos][data-aos-delay="60"].aos-animate {
+  transition-delay: 60ms;
+}
+
+[data-aos][data-aos-delay="80"].aos-animate {
+  transition-delay: 80ms;
+}
+
+[data-aos][data-aos-delay="120"].aos-animate {
+  transition-delay: 120ms;
+}
+
+[data-aos][data-aos-delay="180"].aos-animate {
+  transition-delay: 180ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-aos],
+  [data-aos].aos-animate {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
