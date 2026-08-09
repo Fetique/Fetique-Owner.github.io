@@ -59,9 +59,9 @@ export default function LandingPage({ onOpenChannel }) {
   return (
     <>
       <SeoHead
-        title="Fetique — разработка сайтов и digital для бизнеса"
-        description="Разработка сайтов и лендингов, доработка, поддержка и digital для бизнеса по России. Бесплатный звонок 8-800."
-        keywords="разработка сайта, лендинг для бизнеса, доработка сайта, поддержка сайта, digital для бизнеса, Fetique, ООО Фетик, fetique.com"
+        title="Fetique — сайты и digital для бизнеса"
+        description="Fetique (ООО «Фетик»): разработка сайтов и лендингов, доработка, поддержка и digital для бизнеса по России. Бесплатный звонок 8-800."
+        keywords="Fetique, ООО Фетик, разработка сайта, лендинг для бизнеса, доработка сайта, поддержка сайта, digital для бизнеса, fetique.com"
         path="/"
         jsonLd={homeJsonLd}
       />
@@ -69,12 +69,11 @@ export default function LandingPage({ onOpenChannel }) {
       <section className="hero hero--sales mesh" data-aos="fade-up">
         <div className="hero-layout">
           <div className="hero-copy">
-            <p className="hero-eyebrow">
-              {COMPANY.shortName} · {COMPANY.brand}
-            </p>
-            <h1 className="hero-title hero-title--sales">
-              Сайты и <span className="text-gradient">digital</span> для бизнеса
+            <p className="hero-eyebrow">{COMPANY.shortName}</p>
+            <h1 className="hero-title hero-title--brand">
+              <span className="text-gradient">{COMPANY.brand}</span>
             </h1>
+            <p className="hero-offer">Сайты и digital для бизнеса</p>
             <p className="hero-lead">
               Разработка, доработка и сопровождение сайтов и IT-задач для предпринимателей и компаний. С понятными
               сроками и одним контактом на связи. По всей России.
