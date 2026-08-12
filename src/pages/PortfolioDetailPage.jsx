@@ -4,6 +4,7 @@ import { faArrowLeft, faArrowUpRightFromSquare } from "@fortawesome/free-solid-s
 import SeoHead from "../components/SeoHead.jsx";
 import ArticleLayout from "../components/ArticleLayout.jsx";
 import { getPortfolioBySlug, PORTFOLIO_STATUS } from "../data/portfolio.js";
+import { CONTACT } from "../data/company.js";
 import { publicAsset } from "../utils/publicAsset.js";
 
 function ProjectMedia({ media }) {
@@ -92,11 +93,17 @@ export default function PortfolioDetailPage() {
             ))}
             {section.quotes?.map((quote) => (
               <blockquote key={quote.text.slice(0, 48)} className="project-quote">
-                <p>«{quote.text}»</p>
-                <footer>
-                  — {quote.author}
-                  {quote.handle ? <span className="project-quote-handle">{quote.handle}</span> : null}
-                </footer>
+                <p>
+                  <a
+                    className="project-quote-author text-gradient"
+                    href={CONTACT.projectsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {quote.author}
+                  </a>
+                  : {quote.text}
+                </p>
               </blockquote>
             ))}
           </section>
