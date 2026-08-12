@@ -95,7 +95,7 @@ export default function PortfolioDetailPage() {
               <blockquote key={quote.text.slice(0, 48)} className="project-quote">
                 <p>
                   <a
-                    className="project-quote-author text-gradient"
+                    className="project-quote-author contact-glow"
                     href={CONTACT.projectsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
