@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toCanvas } from "html-to-image";
 import QRCode from "react-qr-code";
 import SeoHead from "../components/SeoHead.jsx";
-import { COMPANY, CONTACT, TAGLINE } from "../data/company.js";
+import { COMPANY, CONTACT } from "../data/company.js";
 import { publicAsset } from "../utils/publicAsset.js";
 import "../styles/business-cards.css";
 
@@ -18,117 +18,24 @@ function printPx(mm, dpi) {
   return Math.round((mm / 25.4) * dpi);
 }
 
-const GRAD_STOPS = [
-  { t: 0, rgb: [232, 212, 184] },
-  { t: 0.48, rgb: [208, 172, 120] },
-  { t: 1, rgb: [211, 140, 116] },
-];
-
-function lerp(a, b, u) {
-  return a + (b - a) * u;
-}
-
-function gradientRgb(x, y, size) {
-  const t = Math.min(1, Math.max(0, (x + y) / (2 * (size - 1))));
-  let i = 0;
-  while (i < GRAD_STOPS.length - 2 && t > GRAD_STOPS[i + 1].t) i += 1;
-  const a = GRAD_STOPS[i];
-  const b = GRAD_STOPS[i + 1];
-  const u = (t - a.t) / (b.t - a.t || 1);
-  return [
-    Math.round(lerp(a.rgb[0], b.rgb[0], u)),
-    Math.round(lerp(a.rgb[1], b.rgb[1], u)),
-    Math.round(lerp(a.rgb[2], b.rgb[2], u)),
-  ];
-}
-
 /**
- * QR → canvas: чёрные модули → золото-розовый градиент логотипа.
+ * Чёрно-белый QR с белой «тихой зоной» (обязательна для сканеров).
+ * Золотая рамка снаружи, не врезается в модули.
  */
-function BrandQr({ size = 188 }) {
-  const hostRef = useRef(null);
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    const host = hostRef.current;
-    const canvas = canvasRef.current;
-    if (!host || !canvas) return undefined;
-
-    let revoked = false;
-    let objectUrl = "";
-
-    const paint = () => {
-      const svg = host.querySelector("svg");
-      if (!svg) return;
-
-      const serializer = new XMLSerializer();
-      const svgStr = serializer.serializeToString(svg);
-      const blob = new Blob([svgStr], { type: "image/svg+xml;charset=utf-8" });
-      objectUrl = URL.createObjectURL(blob);
-
-      const img = new Image();
-      img.onload = () => {
-        if (revoked) return;
-        const ctx = canvas.getContext("2d", { willReadFrequently: true });
-        if (!ctx) return;
-
-        canvas.width = size;
-        canvas.height = size;
-        ctx.clearRect(0, 0, size, size);
-        ctx.drawImage(img, 0, 0, size, size);
-
-        const imageData = ctx.getImageData(0, 0, size, size);
-        const data = imageData.data;
-
-        for (let y = 0; y < size; y += 1) {
-          for (let x = 0; x < size; x += 1) {
-            const i = (y * size + x) * 4;
-            const lum = (data[i] + data[i + 1] + data[i + 2]) / 3;
-            if (lum < 140) {
-              const [r, g, b] = gradientRgb(x, y, size);
-              data[i] = r;
-              data[i + 1] = g;
-              data[i + 2] = b;
-              data[i + 3] = 255;
-            } else {
-              data[i] = 10;
-              data[i + 1] = 10;
-              data[i + 2] = 10;
-              data[i + 3] = 255;
-            }
-          }
-        }
-
-        ctx.putImageData(imageData, 0, 0);
-        URL.revokeObjectURL(objectUrl);
-        objectUrl = "";
-      };
-      img.onerror = () => {
-        if (objectUrl) URL.revokeObjectURL(objectUrl);
-      };
-      img.src = objectUrl;
-    };
-
-    const frame = requestAnimationFrame(paint);
-    return () => {
-      revoked = true;
-      cancelAnimationFrame(frame);
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
-    };
-  }, [size]);
-
+function BrandQr({ size = 168 }) {
   return (
-    <div className="bcard-qr-box">
-      <div className="bcard-qr-source" ref={hostRef} aria-hidden>
-        <QRCode value={SITE_URL} size={size} bgColor="#ffffff" fgColor="#000000" level="M" />
+    <div className="bcard-qr-shell">
+      <div className="bcard-qr-quiet">
+        <QRCode
+          value={SITE_URL}
+          size={size}
+          bgColor="#ffffff"
+          fgColor="#000000"
+          level="M"
+          className="bcard-qr-svg"
+          style={{ width: size, height: size, display: "block" }}
+        />
       </div>
-      <canvas
-        ref={canvasRef}
-        className="bcard-qr-canvas"
-        width={size}
-        height={size}
-        style={{ width: size, height: size }}
-      />
     </div>
   );
 }
@@ -156,7 +63,7 @@ function CardFace({ cardRef }) {
         <h2 className="bcard-accent bcard-face-brand">Fetique</h2>
         <span className="bcard-face-rule" aria-hidden />
         <p className="bcard-face-tagline">
-          <span className="bcard-accent">Zero:</span> {TAGLINE}
+          Найди свой <span className="bcard-accent bcard-face-tag-accent">цифровой фетиш</span>
         </p>
         <p className="bcard-face-desc">
           IT для бизнеса целиком: сайты, digital, сопровождение и решения под задачи компании.
@@ -203,9 +110,7 @@ function CardBack({ cardRef }) {
 
       <div className="bcard-back-main">
         <aside className="bcard-back-qr">
-          <div className="bcard-qr-shell">
-            <BrandQr size={188} />
-          </div>
+          <BrandQr size={168} />
           <p className="bcard-accent bcard-qr-caption">fetique.com</p>
         </aside>
 

@@ -2,12 +2,29 @@ import { useEffect, useRef, useState } from "react";
 import { TAGLINE } from "../data/company.js";
 import { publicAsset } from "../utils/publicAsset.js";
 
-const MIN_MS = 2000;
-const FADE_MS = 750;
+const MIN_MS = 850;
+const FADE_MS = 500;
 const RING_R = 62;
 const RING_SIZE = 148;
 const RING_C = 2 * Math.PI * RING_R;
 const logoSrc = publicAsset("logo.svg");
+const BOOT_SEEN_KEY = "fetique-boot-seen";
+
+export function shouldSkipBootPreloader() {
+  try {
+    return sessionStorage.getItem(BOOT_SEEN_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+export function markBootPreloaderSeen() {
+  try {
+    sessionStorage.setItem(BOOT_SEEN_KEY, "1");
+  } catch {
+    /* ignore */
+  }
+}
 
 export default function Preloader({ mode, onBootFadeComplete }) {
   const [exiting, setExiting] = useState(false);
@@ -22,7 +39,7 @@ export default function Preloader({ mode, onBootFadeComplete }) {
 
     const tick = (now) => {
       const elapsed = now - start;
-      const p = Math.min(100, (elapsed / (MIN_MS - 200)) * 100);
+      const p = Math.min(100, (elapsed / Math.max(MIN_MS - 120, 1)) * 100);
       const circle = progressCircleRef.current;
       if (circle) {
         circle.style.strokeDashoffset = String(RING_C - (RING_C * p) / 100);
@@ -41,7 +58,10 @@ export default function Preloader({ mode, onBootFadeComplete }) {
 
   useEffect(() => {
     if (mode !== "boot" || !exiting) return undefined;
-    const t = window.setTimeout(() => onBootFadeComplete?.(), FADE_MS);
+    const t = window.setTimeout(() => {
+      markBootPreloaderSeen();
+      onBootFadeComplete?.();
+    }, FADE_MS);
     return () => window.clearTimeout(t);
   }, [mode, exiting, onBootFadeComplete]);
 

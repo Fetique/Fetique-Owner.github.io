@@ -30,6 +30,8 @@ export const SERVICE_NAV = SERVICES.map((s) => ({
 export const PAGE_LABELS = {
   "/portfolio": "Проекты",
   "/faq": "Вопросы и ответы",
+  "/privacy": "Конфиденциальность",
+  "/terms": "Условия использования",
   "/razrabotka-sajta-i-lendinga": "Сайт и лендинг",
   "/dorabotka-i-podderzhka-sajta": "Доработка и поддержка",
   "/digital-oformlenie": "Digital-оформление",

@@ -31,7 +31,9 @@ function buildHtml({ title, description, keywords, canonical }) {
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:title" content="${escapeHtml(title)}" />
     <meta property="og:description" content="${escapeHtml(description)}" />
-    <meta property="og:image" content="${origin}/photos/workspace-dual.jpg" />
+    <meta property="og:image" content="${origin}/photos/og-banner.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="${origin}/photos/og-banner.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>

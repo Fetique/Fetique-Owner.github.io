@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { COMPANY, CONTACT } from "../data/company.js";
 
 function scrollToLegalBlock(node) {
@@ -80,6 +81,14 @@ export default function LegalFold() {
             <a href={CONTACT.projectsUrl} target="_blank" rel="noopener noreferrer" className="contact-glow">
               {CONTACT.projectsHandle}
             </a>
+            .{" "}
+            <Link to="/privacy" className="inline-link">
+              Конфиденциальность
+            </Link>
+            {" · "}
+            <Link to="/terms" className="inline-link">
+              Условия
+            </Link>
             .
           </p>
         </div>

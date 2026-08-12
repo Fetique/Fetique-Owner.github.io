@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState, lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Layout from "./components/Layout";
-import Preloader from "./components/Preloader";
+import Preloader, { shouldSkipBootPreloader } from "./components/Preloader";
 import LandingPage from "./pages/LandingPage";
 import ServiceArticlePage from "./pages/ServiceArticlePage";
 import FaqPage from "./pages/FaqPage";
 import PortfolioPage from "./pages/PortfolioPage";
 import PortfolioDetailPage from "./pages/PortfolioDetailPage";
+import LegalPage from "./pages/LegalPage.jsx";
 import { useSiteReady } from "./hooks/useSiteReady.js";
 import { CONTACT } from "./data/company.js";
 
@@ -32,6 +33,8 @@ function AppRoutes({ onOpenChannel }) {
       <Route path="/digital-oformlenie" element={<ServiceArticlePage />} />
       <Route path="/it-soprovozhdenie-dlya-biznesa" element={<ServiceArticlePage />} />
       <Route path="/faq" element={<FaqPage />} />
+      <Route path="/privacy" element={<LegalPage />} />
+      <Route path="/terms" element={<LegalPage />} />
       <Route path="/portfolio" element={<PortfolioPage />} />
       <Route path="/portfolio/:slug" element={<PortfolioDetailPage />} />
       {BusinessCardsPage ? (
@@ -49,9 +52,15 @@ function AppRoutes({ onOpenChannel }) {
 }
 
 export default function App() {
-  const [overlay, setOverlay] = useState("boot");
+  const [overlay, setOverlay] = useState(() => (shouldSkipBootPreloader() ? null : "boot"));
   const siteReady = overlay == null;
   useSiteReady(siteReady);
+
+  useEffect(() => {
+    if (overlay == null) {
+      document.body.classList.add("app-ready");
+    }
+  }, [overlay]);
 
   useEffect(() => {
     document.documentElement.style.overflow = overlay ? "hidden" : "";

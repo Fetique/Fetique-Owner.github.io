@@ -321,10 +321,15 @@
   margin: 0;
   max-width: 700px;
   font-size: 28px;
-  font-weight: 600;
-  line-height: 1.28;
-  letter-spacing: 0.01em;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
   color: var(--card-muted);
+}
+
+.bcard-face-tag-accent {
+  font-weight: 800;
+  letter-spacing: 0.04em;
 }
 
 .bcard-face-desc {
@@ -396,33 +401,24 @@
 }
 
 .bcard-qr-shell {
-  padding: 3px;
+  padding: 4px;
   border-radius: 10px;
   background: linear-gradient(145deg, var(--gold-pale), var(--gold-deep), var(--gold-rose));
   box-shadow: 0 8px 24px rgba(172, 130, 70, 0.28);
-}
-
-.bcard-qr-box {
-  box-sizing: border-box;
-  padding: 9px;
-  background: #0a0a0a;
-  border-radius: 8px;
   line-height: 0;
-  position: relative;
 }
 
-.bcard-qr-source {
-  position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-  opacity: 0;
-  pointer-events: none;
+/* Компактная тихая зона — рамка читается, сканер ещё держит */
+.bcard-qr-quiet {
+  padding: 7px;
+  background: #ffffff;
+  border-radius: 7px;
+  line-height: 0;
 }
 
-.bcard-qr-canvas {
+.bcard-qr-quiet svg.bcard-qr-svg {
   display: block;
-  border-radius: 3px;
+  shape-rendering: crispEdges;
 }
 
 .bcard-qr-caption {
@@ -540,11 +536,6 @@
 
   .bcard-back-main {
     grid-template-columns: 220px minmax(0, 1fr);
-  }
-
-  .bcard-qr-canvas {
-    width: 156px !important;
-    height: 156px !important;
   }
 
   .bcard-legal {

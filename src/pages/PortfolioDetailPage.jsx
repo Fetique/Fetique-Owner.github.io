@@ -7,7 +7,17 @@ import { getPortfolioBySlug, PORTFOLIO_STATUS } from "../data/portfolio.js";
 import { publicAsset } from "../utils/publicAsset.js";
 
 function ProjectMedia({ media }) {
-  if (!media?.src) return null;
+  if (!media?.src) {
+    return (
+      <figure className="project-detail-media project-detail-media--pending" aria-label="Превью появится позже">
+        <div className="portfolio-media-pending portfolio-media-pending--detail" aria-hidden>
+          <span>?</span>
+          <p>Скрин появится позже</p>
+        </div>
+      </figure>
+    );
+  }
+
   const src = publicAsset(media.src);
 
   if (media.type === "gif") {
@@ -79,6 +89,15 @@ export default function PortfolioDetailPage() {
             <h2>{section.h2}</h2>
             {section.paragraphs.map((p) => (
               <p key={p.slice(0, 40)}>{p}</p>
+            ))}
+            {section.quotes?.map((quote) => (
+              <blockquote key={quote.text.slice(0, 48)} className="project-quote">
+                <p>«{quote.text}»</p>
+                <footer>
+                  — {quote.author}
+                  {quote.handle ? <span className="project-quote-handle">{quote.handle}</span> : null}
+                </footer>
+              </blockquote>
             ))}
           </section>
         ))}

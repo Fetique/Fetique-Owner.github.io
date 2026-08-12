@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { SITE_ORIGIN } from "../data/seoRoutes.js";
 
-const DEFAULT_IMAGE = `${SITE_ORIGIN}/photos/workspace-dual.jpg`;
+const DEFAULT_IMAGE = `${SITE_ORIGIN}/photos/og-banner.png`;
 
 export default function SeoHead({ title, description, keywords, path = "/", jsonLd = null, noindex = false }) {
   useEffect(() => {
@@ -37,6 +37,10 @@ export default function SeoHead({ title, description, keywords, path = "/", json
     setMeta("og:type", "website", true);
     setMeta("og:image", DEFAULT_IMAGE, true);
     setMeta("og:locale", "ru_RU", true);
+    setMeta("twitter:card", "summary_large_image");
+    setMeta("twitter:title", title);
+    setMeta("twitter:description", description);
+    setMeta("twitter:image", DEFAULT_IMAGE);
 
     const oldLd = document.getElementById("page-jsonld");
     if (oldLd) oldLd.remove();

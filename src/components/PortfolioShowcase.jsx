@@ -161,7 +161,11 @@ export default function PortfolioShowcase() {
                 >
                   <img src={imgSrc} alt="" width={320} height={180} loading="lazy" decoding="async" />
                 </div>
-              ) : null}
+              ) : (
+                <div className="portfolio-media-pending" aria-hidden>
+                  <span>?</span>
+                </div>
+              )}
 
               <div className="portfolio-side-body">
                 <p className="portfolio-card-eyebrow">{item.subtitle}</p>

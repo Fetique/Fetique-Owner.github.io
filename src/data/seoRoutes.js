@@ -44,6 +44,18 @@ const BASE_ROUTES = [
     slug: "faq",
     changefreq: "monthly",
     priority: "0.75"
+  },
+  {
+    path: "/privacy",
+    slug: "privacy",
+    changefreq: "yearly",
+    priority: "0.4"
+  },
+  {
+    path: "/terms",
+    slug: "terms",
+    changefreq: "yearly",
+    priority: "0.4"
   }
 ];
 

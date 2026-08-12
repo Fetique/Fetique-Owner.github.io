@@ -17,6 +17,9 @@ export default function Layout({ children }) {
 
   return (
     <div className="app-shell">
+      <a href="#main-content" className="skip-link">
+        К содержанию
+      </a>
       <PageScrollbar />
       <header className="header glass">
         <Link to="/" className="brand">
@@ -25,7 +28,9 @@ export default function Layout({ children }) {
         </Link>
         <SiteNav />
       </header>
-      <main className={isHome ? "main--landing" : "main--article"}>{children}</main>
+      <main id="main-content" className={isHome ? "main--landing" : "main--article"} tabIndex={-1}>
+        {children}
+      </main>
       <footer className="footer glass">
         <div className="footer-inner">
           <p>
@@ -48,6 +53,8 @@ export default function Layout({ children }) {
             <Link to="/it-soprovozhdenie-dlya-biznesa">IT-сопровождение</Link>
             <Link to="/portfolio">Портфолио</Link>
             <Link to="/faq">Вопросы</Link>
+            <Link to="/privacy">Конфиденциальность</Link>
+            <Link to="/terms">Условия</Link>
           </nav>
         </div>
       </footer>
