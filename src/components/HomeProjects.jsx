@@ -11,7 +11,8 @@ export default function HomeProjects() {
     <section id="projects" className="section home-projects">
       <div className="home-projects-head" data-aos="fade-up">
         <div>
-          <h2 className="section-title">Проекты</h2>
+          <p className="section-kicker">/ 01 — проекты</p>
+          <h2 className="section-title">Живые кейсы</h2>
           <p className="section-lead">
             Живые кейсы и то, что сейчас в разработке — без выдуманных «агентских» портфолио.
           </p>
@@ -28,7 +29,7 @@ export default function HomeProjects() {
           return (
             <article
               key={item.id}
-              className="panel home-project-card"
+              className={`panel home-project-card${i === 0 ? " home-project-card--lead" : ""}`}
               data-aos="fade-up"
               data-aos-delay={i * 60}
             >

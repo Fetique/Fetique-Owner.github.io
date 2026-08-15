@@ -9,6 +9,7 @@ export default function HomeFaq() {
     <section id="faq-preview" className="section home-faq">
       <div className="home-faq-head" data-aos="fade-up">
         <div>
+          <p className="section-kicker">/ FAQ</p>
           <h2 className="section-title">Частые вопросы</h2>
           <p className="section-lead">Коротко до созвона — остальное на странице вопросов.</p>
         </div>

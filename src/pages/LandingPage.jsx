@@ -20,6 +20,7 @@ import SeoHead from "../components/SeoHead.jsx";
 import HomeProjects from "../components/HomeProjects.jsx";
 import HomePricing from "../components/HomePricing.jsx";
 import HomeFaq from "../components/HomeFaq.jsx";
+import HomeClasp from "../components/HomeClasp.jsx";
 import { scrollToSection } from "../utils/scrollToSection.js";
 import { publicAsset } from "../utils/publicAsset.js";
 import { COMPANY, CONTACT, PROCESS_LEAD, SERVICES, SITE_PHOTOS, TAGLINE } from "../data/company.js";
@@ -67,15 +68,20 @@ export default function LandingPage() {
       />
       <div id="top" className="landing">
         <section className="hero hero--sales mesh" data-aos="fade-up">
+          <div className="hero-orb" aria-hidden="true" />
           <div className="hero-layout">
             <div className="hero-copy">
-              <p className="hero-eyebrow">{COMPANY.shortName}</p>
+              <p className="hero-eyebrow">{COMPANY.shortName} · по России</p>
               <h1 className="hero-title hero-title--brand">
                 <span className="text-gradient">{COMPANY.brand}</span>
               </h1>
-              <p className="hero-offer">Сайты и digital для бизнеса</p>
+              <p className="hero-display">
+                Сайты и digital для бизнеса —
+                <br />
+                с ясным сроком и одним контактом.
+              </p>
               <p className="hero-lead">
-                Разработка, доработка и сопровождение — с понятными сроками и одним контактом. По всей России.
+                Разработка, доработка и сопровождение. Без агентской шелухи и скрытых доплат в конце.
               </p>
               <p className="hero-tagline hero-tagline--sub">{TAGLINE}</p>
               <div className="hero-actions hero-actions--pair">
@@ -112,11 +118,14 @@ export default function LandingPage() {
           </div>
         </section>
 
+        <HomeClasp />
+
         <HomeProjects />
 
         <section id="services" className="section">
+          <p className="section-kicker">/ 02 — услуги</p>
           <h2 className="section-title" data-aos="fade-right">
-            Услуги
+            Что берём
           </h2>
           <p className="section-lead" data-aos="fade-up">
             Если сайта нет, он устарел или не приносит заявки — коротко разберём задачу и предложим формат.
@@ -126,7 +135,7 @@ export default function LandingPage() {
             {SERVICES.map((item, i) => (
               <article
                 key={item.title}
-                className="panel bento-card"
+                className={`panel bento-card${i === 0 ? " bento-card--lead" : ""}`}
                 data-aos="fade-up"
                 data-aos-delay={i * 60}
               >
@@ -149,6 +158,7 @@ export default function LandingPage() {
         <BrandStrip />
 
         <section id="process" className="section panel process-panel process-panel--center">
+          <p className="section-kicker">/ 04 — процесс</p>
           <h2 className="section-title" data-aos="fade-up">
             Как работаем
           </h2>
@@ -163,6 +173,7 @@ export default function LandingPage() {
         <section id="about" className="section about-section">
           <div className="about-grid">
             <div className="about-copy" data-aos="fade-up">
+              <p className="section-kicker">/ 05 — компания</p>
               <h2 className="section-title">О компании</h2>
               <div className="prose">
                 <p>
@@ -209,8 +220,11 @@ export default function LandingPage() {
         </section>
 
         <section id="contact" className="section contact-section">
-          <h2 className="section-title" data-aos="fade-right">
-            Связь
+          <p className="section-kicker">/ 06 — связь</p>
+          <h2 className="section-title contact-title" data-aos="fade-right">
+            Напишите задачу —
+            <br />
+            ответим <em>лично</em>
           </h2>
           <p className="section-lead" data-aos="fade-up">
             По задачам удобнее писать или звонить напрямую. Канал — для новостей и контекста бренда.

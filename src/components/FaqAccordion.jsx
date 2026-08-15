@@ -1,9 +1,11 @@
 import { useId, useState } from "react";
 import ContactRichText from "./ContactRichText.jsx";
+import { useExpandHeight } from "../hooks/useExpandHeight.js";
 
 function FaqItem({ item, defaultOpen = false }) {
   const [open, setOpen] = useState(defaultOpen);
   const answerId = useId();
+  const answerRef = useExpandHeight(open);
 
   return (
     <article className={`faq-item panel${open ? " is-open" : ""}`}>
@@ -17,7 +19,7 @@ function FaqItem({ item, defaultOpen = false }) {
         <span className="faq-trigger-label">{item.q}</span>
         <span className="faq-trigger-icon" aria-hidden />
       </button>
-      <div id={answerId} className="faq-answer" aria-hidden={!open}>
+      <div id={answerId} ref={answerRef} className="faq-answer" aria-hidden={!open}>
         <div className="faq-answer-inner">
           <ContactRichText text={item.a} />
         </div>

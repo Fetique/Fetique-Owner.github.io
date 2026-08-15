@@ -17,6 +17,7 @@ export default function Layout({ children }) {
 
   return (
     <div className="app-shell">
+      <div className="page-grain" aria-hidden="true" />
       <a href="#main-content" className="skip-link">
         К содержанию
       </a>

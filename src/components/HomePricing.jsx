@@ -3,6 +3,7 @@ import { CONTACT, PRICE_NOTE, PRICE_PACKS } from "../data/company.js";
 export default function HomePricing() {
   return (
     <section id="pricing" className="section home-pricing">
+      <p className="section-kicker">/ 03 — бюджет</p>
       <h2 className="section-title" data-aos="fade-right">
         Ориентир по бюджету
       </h2>
@@ -13,7 +14,7 @@ export default function HomePricing() {
         {PRICE_PACKS.map((pack, i) => (
           <article
             key={pack.id}
-            className="panel home-pricing-card"
+            className={`panel home-pricing-card${pack.id === "site" ? " home-pricing-card--featured" : ""}`}
             data-aos="fade-up"
             data-aos-delay={i * 60}
           >

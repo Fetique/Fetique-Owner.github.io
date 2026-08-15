@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { COMPANY, CONTACT } from "../data/company.js";
+import { useExpandHeight } from "../hooks/useExpandHeight.js";
 
 function scrollToLegalBlock(node) {
   if (!node) return;
@@ -13,13 +14,13 @@ function scrollToLegalBlock(node) {
 export default function LegalFold() {
   const [open, setOpen] = useState(false);
   const blockRef = useRef(null);
-  const contentRef = useRef(null);
+  const bodyRef = useExpandHeight(open);
 
   function toggle() {
     setOpen((prev) => {
       const next = !prev;
       if (next) {
-        window.setTimeout(() => scrollToLegalBlock(contentRef.current || blockRef.current), 420);
+        window.setTimeout(() => scrollToLegalBlock(blockRef.current), 420);
       }
       return next;
     });
@@ -31,8 +32,8 @@ export default function LegalFold() {
         <span className="legal-summary-text">Юридические реквизиты {COMPANY.shortName}</span>
         <span className="legal-summary-icon" aria-hidden />
       </button>
-      <div className="legal-body" aria-hidden={!open}>
-        <div ref={contentRef} className="legal-body-inner" id="legal-details">
+      <div ref={bodyRef} className="legal-body" aria-hidden={!open}>
+        <div className="legal-body-inner" id="legal-details">
           <p className="legal-name">{COMPANY.fullName}</p>
           <dl className="legal-dl">
             <div>
