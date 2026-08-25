@@ -157,7 +157,13 @@ export default function PortfolioShowcase() {
                 </div>
               ) : imgSrc ? (
                 <div
-                  className={`portfolio-side-thumb${item.id === "fetique-docs" ? " portfolio-side-thumb--stamp" : ""}`}
+                  className={`portfolio-side-thumb${
+                    item.id === "fetique-deal"
+                      ? " portfolio-side-thumb--stamp"
+                      : item.thumbFit === "logo"
+                        ? " portfolio-side-thumb--logo"
+                        : ""
+                  }`}
                 >
                   <img src={imgSrc} alt="" width={320} height={180} loading="lazy" decoding="async" />
                 </div>

@@ -29,8 +29,15 @@ function ProjectMedia({ media }) {
     );
   }
 
+  const fitClass =
+    media.src === "print.png"
+      ? " project-detail-media--stamp"
+      : media.fit === "logo"
+        ? " project-detail-media--logo"
+        : "";
+
   return (
-    <figure className={`project-detail-media${media.src === "print.png" ? " project-detail-media--stamp" : ""}`}>
+    <figure className={`project-detail-media${fitClass}`}>
       <img src={src} alt={media.alt ?? ""} width={1024} height={576} loading="lazy" decoding="async" />
     </figure>
   );

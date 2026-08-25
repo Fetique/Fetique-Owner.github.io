@@ -33,7 +33,7 @@ export default function HomeProjects() {
               data-aos="fade-up"
               data-aos-delay={i * 60}
             >
-              <div className="home-project-thumb">
+              <div className={`home-project-thumb${item.thumbFit === "logo" ? " home-project-thumb--logo" : ""}`}>
                 {img ? (
                   <img src={img} alt="" width={640} height={360} loading="lazy" decoding="async" />
                 ) : (
