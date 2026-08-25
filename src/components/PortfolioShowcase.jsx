@@ -11,13 +11,13 @@ import { PORTFOLIO_ITEMS, PORTFOLIO_STATUS } from "../data/portfolio.js";
 import { CONTACT } from "../data/company.js";
 import { publicAsset } from "../utils/publicAsset.js";
 
-function ProgressRing({ value, size = 56 }) {
+function ProgressRing({ value, size = 56, busy = false }) {
   const r = (size - 6) / 2;
   const c = 2 * Math.PI * r;
   const offset = c - (value / 100) * c;
 
   return (
-    <div className="progress-ring" style={{ width: size, height: size }} aria-hidden>
+    <div className={`progress-ring${busy ? " progress-ring--busy" : ""}`} style={{ width: size, height: size }} aria-hidden>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
         <circle className="progress-ring-track" cx={size / 2} cy={size / 2} r={r} />
         <circle
@@ -185,9 +185,9 @@ export default function PortfolioShowcase() {
 
                 {item.status !== "live" && !item.placeholder ? (
                   <div className="portfolio-side-progress">
-                    <ProgressRing value={progress} />
+                    <ProgressRing value={progress} busy />
                     <span className="portfolio-side-progress-text">
-                      <FontAwesomeIcon icon={faCircleNotch} spin={item.status === "internal"} /> {status.label}
+                      <FontAwesomeIcon icon={faCircleNotch} spin /> {status.label}
                     </span>
                   </div>
                 ) : null}

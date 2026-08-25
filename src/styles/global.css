@@ -3477,6 +3477,19 @@ button.contact-tile {
   transform: rotate(-90deg);
 }
 
+.progress-ring--busy svg {
+  animation: portfolio-ring-spin 3.2s linear infinite;
+}
+
+@keyframes portfolio-ring-spin {
+  from {
+    transform: rotate(-90deg);
+  }
+  to {
+    transform: rotate(270deg);
+  }
+}
+
 .progress-ring-track {
   fill: none;
   stroke: rgba(208, 172, 120, 0.15);
