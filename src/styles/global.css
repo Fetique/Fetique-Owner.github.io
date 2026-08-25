@@ -3305,6 +3305,27 @@ button.contact-tile {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  height: 100%;
+}
+
+.portfolio-side-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 0;
+}
+
+.portfolio-side-body > p:not(.portfolio-card-eyebrow) {
+  flex: 0 1 auto;
+}
+
+.portfolio-side-footer {
+  margin-top: auto;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .portfolio-side--invite {

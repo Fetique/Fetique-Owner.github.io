@@ -275,20 +275,14 @@ export const PORTFOLIO_ITEMS = [
     status: "progress",
     tags: ["Приложение", "Expo", "Аудио"],
     url: null,
-    image: "photos/frozenmusic-mark.png",
-    thumbFit: "logo",
+    image: null,
     year: "2026",
     progress: 50,
     detail: {
       title: "FrozenMusic — музыкальный плеер",
       description:
         "Личный продукт Fetique: плеер с библиотекой, поиском, текстами песен и караоке. Показываем как живой кейс мобильной разработки.",
-      media: {
-        type: "image",
-        src: "photos/frozenmusic-mark.png",
-        alt: "Логотип FrozenMusic",
-        fit: "logo"
-      },
+      media: null,
       sections: [
         {
           h2: "Зачем",

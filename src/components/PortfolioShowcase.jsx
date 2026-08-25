@@ -177,22 +177,25 @@ export default function PortfolioShowcase() {
                 <p className="portfolio-card-eyebrow">{item.subtitle}</p>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
-                <ul className="portfolio-tags">
-                  {item.tags.map((tag) => (
-                    <li key={tag}>{tag}</li>
-                  ))}
-                </ul>
 
-                {item.status !== "live" && !item.placeholder ? (
-                  <div className="portfolio-side-progress">
-                    <ProgressRing value={progress} busy />
-                    <span className="portfolio-side-progress-text">
-                      <FontAwesomeIcon icon={faCircleNotch} spin /> {status.label}
-                    </span>
-                  </div>
-                ) : null}
+                <div className="portfolio-side-footer">
+                  <ul className="portfolio-tags">
+                    {item.tags.map((tag) => (
+                      <li key={tag}>{tag}</li>
+                    ))}
+                  </ul>
 
-                <PortfolioCardActions item={item} />
+                  {item.status !== "live" && !item.placeholder ? (
+                    <div className="portfolio-side-progress">
+                      <ProgressRing value={progress} busy />
+                      <span className="portfolio-side-progress-text">
+                        <FontAwesomeIcon icon={faCircleNotch} spin /> {status.label}
+                      </span>
+                    </div>
+                  ) : null}
+
+                  <PortfolioCardActions item={item} />
+                </div>
               </div>
             </article>
           );
