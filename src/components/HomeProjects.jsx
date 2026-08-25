@@ -37,7 +37,7 @@ export default function HomeProjects() {
           <p className="section-kicker">/ 01 — проекты</p>
           <h2 className="section-title">Живые кейсы</h2>
           <p className="section-lead">
-            Живые кейсы и то, что сейчас в разработке — без выдуманных «агентских» портфолио.
+            Запущенные проекты и то, что сейчас в разработке — с нормальным описанием, а не одной строкой.
           </p>
         </div>
         <Link to="/portfolio" className="home-projects-all">

@@ -56,7 +56,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://fetique.com/portfolio/frozenmusic/</loc>
+    <loc>https://fetique.com/portfolio/the-thief/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fetique.com/portfolio/fetique-site/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -66,17 +71,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://fetique.com/portfolio/frozenmusic/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://fetique.com/portfolio/geli-k/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fetique.com/portfolio/the-thief/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://fetique.com/portfolio/fetique-site/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
