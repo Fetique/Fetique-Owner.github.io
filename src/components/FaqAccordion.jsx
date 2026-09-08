@@ -8,7 +8,7 @@ function FaqItem({ item, defaultOpen = false }) {
   const answerRef = useExpandHeight(open);
 
   return (
-    <article className={`faq-item panel${open ? " is-open" : ""}`}>
+    <article className={`faq-item${open ? " is-open" : ""}`}>
       <button
         type="button"
         className="faq-trigger"

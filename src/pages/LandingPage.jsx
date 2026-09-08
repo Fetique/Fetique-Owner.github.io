@@ -23,7 +23,7 @@ import HomeFaq from "../components/HomeFaq.jsx";
 import HomeClasp from "../components/HomeClasp.jsx";
 import { scrollToSection } from "../utils/scrollToSection.js";
 import { publicAsset } from "../utils/publicAsset.js";
-import { COMPANY, CONTACT, PROCESS_LEAD, SERVICES, SITE_PHOTOS, TAGLINE } from "../data/company.js";
+import { COMPANY, CONTACT, PROCESS_LEAD, SERVICES, SITE_PHOTOS } from "../data/company.js";
 
 const workspaceSrc = publicAsset(SITE_PHOTOS.workspace);
 const SERVICE_ICONS = [faGlobe, faScrewdriverWrench, faWandMagicSparkles, faLayerGroup];
@@ -67,11 +67,10 @@ export default function LandingPage() {
         jsonLd={homeJsonLd}
       />
       <div id="top" className="landing">
-        <section className="hero hero--sales mesh" data-aos="fade-up">
+        <section className="hero hero--sales" data-aos="fade-up">
           <div className="hero-orb" aria-hidden="true" />
           <div className="hero-layout">
             <div className="hero-copy">
-              <p className="hero-eyebrow">{COMPANY.shortName} · по России</p>
               <h1 className="hero-title hero-title--brand">
                 <span className="text-gradient">{COMPANY.brand}</span>
               </h1>
@@ -83,7 +82,6 @@ export default function LandingPage() {
               <p className="hero-lead">
                 Разработка, доработка и сопровождение. Без агентской шелухи и скрытых доплат в конце.
               </p>
-              <p className="hero-tagline hero-tagline--sub">{TAGLINE}</p>
               <div className="hero-actions hero-actions--pair">
                 <a
                   className="btn btn-primary btn-primary--shine"
@@ -131,23 +129,20 @@ export default function LandingPage() {
             Если сайта нет, он устарел или не приносит заявки — коротко разберём задачу и предложим формат.
           </p>
           <ServiceNav />
-          <div className="bento bento--services">
+          <div className="services-list">
             {SERVICES.map((item, i) => (
-              <article
-                key={item.title}
-                className={`panel bento-card${i === 0 ? " bento-card--lead" : ""}`}
-                data-aos="fade-up"
-                data-aos-delay={i * 60}
-              >
-                <span className="bento-icon" aria-hidden>
+              <article key={item.title} className="services-list-item" data-aos="fade-up" data-aos-delay={i * 50}>
+                <span className="services-list-icon" aria-hidden>
                   <FontAwesomeIcon icon={SERVICE_ICONS[i]} />
                 </span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-                <p className="bento-note">{item.note}</p>
-                <Link to={`/${item.slug}`} className="bento-more">
-                  Подробнее <FontAwesomeIcon icon={faArrowRight} />
-                </Link>
+                <div className="services-list-copy">
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                  <p className="services-list-note">{item.note}</p>
+                  <Link to={`/${item.slug}`} className="bento-more">
+                    Подробнее <FontAwesomeIcon icon={faArrowRight} />
+                  </Link>
+                </div>
               </article>
             ))}
           </div>
@@ -157,7 +152,7 @@ export default function LandingPage() {
 
         <BrandStrip />
 
-        <section id="process" className="section panel process-panel process-panel--center">
+        <section id="process" className="section process-section process-section--open">
           <p className="section-kicker">/ 04 — процесс</p>
           <h2 className="section-title" data-aos="fade-up">
             Как работаем

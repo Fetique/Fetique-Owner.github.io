@@ -1,38 +1,15 @@
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
   faArrowUpRightFromSquare,
-  faCircleNotch,
   faPaperPlane,
   faWandMagicSparkles
 } from "@fortawesome/free-solid-svg-icons";
-import { PORTFOLIO_ITEMS, PORTFOLIO_STATUS } from "../data/portfolio.js";
+import { PORTFOLIO_ITEMS, PORTFOLIO_KINDS, PORTFOLIO_STATUS } from "../data/portfolio.js";
 import { CONTACT } from "../data/company.js";
 import { publicAsset } from "../utils/publicAsset.js";
-
-function ProgressRing({ value, size = 56, busy = false }) {
-  const r = (size - 6) / 2;
-  const c = 2 * Math.PI * r;
-  const offset = c - (value / 100) * c;
-
-  return (
-    <div className={`progress-ring${busy ? " progress-ring--busy" : ""}`} style={{ width: size, height: size }} aria-hidden>
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-        <circle className="progress-ring-track" cx={size / 2} cy={size / 2} r={r} />
-        <circle
-          className="progress-ring-fill"
-          cx={size / 2}
-          cy={size / 2}
-          r={r}
-          strokeDasharray={c}
-          strokeDashoffset={offset}
-        />
-      </svg>
-      <span className="progress-ring-label">{value}%</span>
-    </div>
-  );
-}
 
 function BrowserFrame({ src, url, alt }) {
   return (
@@ -84,15 +61,59 @@ function PortfolioCardActions({ item }) {
 }
 
 export default function PortfolioShowcase() {
-  const featured = PORTFOLIO_ITEMS.find((item) => item.featured) ?? PORTFOLIO_ITEMS[0];
-  const rowItems = PORTFOLIO_ITEMS.filter((item) => item.id !== featured.id);
+  const [kind, setKind] = useState("all");
+
+  const visible = useMemo(() => {
+    if (kind === "all") return PORTFOLIO_ITEMS;
+    return PORTFOLIO_ITEMS.filter((item) => item.kind === kind || (item.placeholder && kind === "site"));
+  }, [kind]);
+
+  const featured = visible.find((item) => item.featured) ?? visible.find((item) => !item.placeholder) ?? visible[0];
+  const rowItems = visible.filter((item) => item.id !== featured?.id);
+
+  if (!featured) {
+    return (
+      <div className="portfolio-showcase">
+        <div className="portfolio-filters" role="tablist" aria-label="Тип проекта">
+          {PORTFOLIO_KINDS.map((k) => (
+            <button
+              key={k.id}
+              type="button"
+              role="tab"
+              aria-selected={kind === k.id}
+              className={`portfolio-filter${kind === k.id ? " is-active" : ""}`}
+              onClick={() => setKind(k.id)}
+            >
+              {k.label}
+            </button>
+          ))}
+        </div>
+        <p className="muted">В этой категории пока пусто.</p>
+      </div>
+    );
+  }
 
   const featuredStatus = PORTFOLIO_STATUS[featured.status];
   const featuredImg = featured.image ? publicAsset(featured.image) : null;
 
   return (
     <div className="portfolio-showcase">
-      <article className="portfolio-feature panel">
+      <div className="portfolio-filters" role="tablist" aria-label="Тип проекта">
+        {PORTFOLIO_KINDS.map((k) => (
+          <button
+            key={k.id}
+            type="button"
+            role="tab"
+            aria-selected={kind === k.id}
+            className={`portfolio-filter${kind === k.id ? " is-active" : ""}`}
+            onClick={() => setKind(k.id)}
+          >
+            {k.label}
+          </button>
+        ))}
+      </div>
+
+      <article className="portfolio-feature">
         <div className="portfolio-feature-visual">
           {featuredImg ? (
             <BrowserFrame src={featuredImg} url={featured.title} alt={`Превью ${featured.title}`} />
@@ -138,13 +159,12 @@ export default function PortfolioShowcase() {
       <div className="portfolio-row">
         {rowItems.map((item, index) => {
           const status = PORTFOLIO_STATUS[item.status];
-          const progress = item.progress ?? status.progress ?? 0;
           const imgSrc = item.image ? publicAsset(item.image) : null;
 
           return (
             <article
               key={item.id}
-              className={`portfolio-side panel${item.placeholder ? " portfolio-side--invite" : ""}`}
+              className={`portfolio-side${item.placeholder ? " portfolio-side--invite" : ""}`}
             >
               <div className="portfolio-side-head">
                 <span className="portfolio-index">{String(index + 2).padStart(2, "0")}</span>
@@ -184,16 +204,6 @@ export default function PortfolioShowcase() {
                       <li key={tag}>{tag}</li>
                     ))}
                   </ul>
-
-                  {item.status !== "live" && !item.placeholder ? (
-                    <div className="portfolio-side-progress">
-                      <ProgressRing value={progress} busy />
-                      <span className="portfolio-side-progress-text">
-                        <FontAwesomeIcon icon={faCircleNotch} spin /> {status.label}
-                      </span>
-                    </div>
-                  ) : null}
-
                   <PortfolioCardActions item={item} />
                 </div>
               </div>
