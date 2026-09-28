@@ -18,11 +18,24 @@ export function setCookieConsent(value) {
   }
 }
 
+/** Режим отладки Метрики: ?_ym_debug=1|2 — счётчик грузим сразу (иначе проверка Яндекса его не видит). */
+export function isMetrikaDebugMode() {
+  if (typeof window === "undefined") return false;
+  try {
+    const v = new URLSearchParams(window.location.search).get("_ym_debug");
+    return v === "1" || v === "2";
+  } catch {
+    return false;
+  }
+}
+
 function injectMetrikaScript() {
   if (!hasMetrikaId() || typeof window === "undefined") return;
-  if (window.ym && window.__fetiqueMetrikaReady) return;
+  if (window.__fetiqueMetrikaReady) return;
 
   window.dataLayer = window.dataLayer || [];
+  const tagUrl = `https://mc.yandex.ru/metrika/tag.js?id=${YANDEX_METRIKA_ID}`;
+
   /* eslint-disable */
   (function (m, e, t, r, i, k, a) {
     m[i] =
@@ -40,7 +53,7 @@ function injectMetrikaScript() {
     k.async = 1;
     k.src = r;
     a.parentNode.insertBefore(k, a);
-  })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  })(window, document, "script", tagUrl, "ym");
   /* eslint-enable */
 
   window.ym(YANDEX_METRIKA_ID, "init", {
@@ -62,10 +75,6 @@ export function enableMetrika() {
 
 export function hitMetrika(url) {
   if (!hasMetrikaId() || typeof window === "undefined" || typeof window.ym !== "function") return;
-  if (getCookieConsent() !== "accepted") return;
+  if (getCookieConsent() !== "accepted" && !isMetrikaDebugMode()) return;
   window.ym(YANDEX_METRIKA_ID, "hit", url || window.location.pathname + window.location.search);
-}
-
-export function disableMetrikaTracking() {
-  /* Скрипт уже мог загрузиться в этой сессии — дальше hit не шлём из‑за consent !== accepted */
 }

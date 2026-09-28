@@ -1,12 +1,26 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { hasMetrikaId } from "../data/analytics.js";
-import { enableMetrika, getCookieConsent, hitMetrika, setCookieConsent } from "../utils/metrika.js";
+import {
+  enableMetrika,
+  getCookieConsent,
+  hitMetrika,
+  isMetrikaDebugMode,
+  setCookieConsent
+} from "../utils/metrika.js";
 
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    if (isMetrikaDebugMode() && hasMetrikaId()) {
+      setCookieConsent("accepted");
+      enableMetrika();
+      hitMetrika(window.location.pathname + window.location.search);
+      setVisible(false);
+      return;
+    }
+
     const consent = getCookieConsent();
     if (consent === "accepted" && hasMetrikaId()) {
       enableMetrika();
