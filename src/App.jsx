@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Layout from "./components/Layout";
 import Preloader, { shouldSkipBootPreloader } from "./components/Preloader";
+import CookieConsent from "./components/CookieConsent.jsx";
 import LandingPage from "./pages/LandingPage";
 import ServiceArticlePage from "./pages/ServiceArticlePage";
 import FaqPage from "./pages/FaqPage";
@@ -10,6 +11,7 @@ import PortfolioDetailPage from "./pages/PortfolioDetailPage";
 import LegalPage from "./pages/LegalPage.jsx";
 import { useSiteReady } from "./hooks/useSiteReady.js";
 import { CONTACT } from "./data/company.js";
+import { getCookieConsent, hitMetrika } from "./utils/metrika.js";
 
 /** Визитки только в локальной разработке — в прод не попадают */
 const BusinessCardsPage = import.meta.env.DEV
@@ -21,6 +23,15 @@ function ScrollToTop() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+  return null;
+}
+
+function MetrikaSpaHits() {
+  const location = useLocation();
+  useEffect(() => {
+    if (getCookieConsent() !== "accepted") return;
+    hitMetrika(location.pathname + location.search);
+  }, [location.pathname, location.search]);
   return null;
 }
 
@@ -86,9 +97,11 @@ export default function App() {
       <Preloader mode={overlay} onBootFadeComplete={onBootFadeComplete} />
       <BrowserRouter>
         <ScrollToTop />
+        <MetrikaSpaHits />
         <Layout>
           <AppRoutes onOpenChannel={onOpenChannel} />
         </Layout>
+        <CookieConsent />
       </BrowserRouter>
     </>
   );

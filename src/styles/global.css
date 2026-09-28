@@ -4220,3 +4220,62 @@ button.contact-tile {
   -webkit-text-fill-color: var(--gold-pale);
 }
 
+/* Cookie consent — analytics only after accept */
+.cookie-consent {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 80;
+  padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(180deg, rgba(18, 14, 12, 0.92), rgba(12, 10, 9, 0.98));
+  border-top: 1px solid var(--stroke);
+  backdrop-filter: blur(12px);
+}
+
+.cookie-consent-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 20px;
+}
+
+.cookie-consent-text {
+  margin: 0;
+  flex: 1 1 280px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.cookie-consent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cookie-consent-reject {
+  background: transparent;
+  border: 1px solid var(--stroke);
+  color: var(--gold-pale);
+}
+
+.cookie-consent-reject:hover {
+  border-color: var(--gold);
+  color: var(--text);
+}
+
+@media (max-width: 640px) {
+  .cookie-consent-actions {
+    width: 100%;
+  }
+
+  .cookie-consent-actions .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
