@@ -44,11 +44,14 @@ function injectMetrikaScript() {
   /* eslint-enable */
 
   window.ym(YANDEX_METRIKA_ID, "init", {
+    ssr: true,
     clickmap: true,
     trackLinks: true,
     accurateTrackBounce: true,
     webvisor: true,
-    ecommerce: "dataLayer"
+    ecommerce: "dataLayer",
+    referrer: document.referrer,
+    url: location.href
   });
   window.__fetiqueMetrikaReady = true;
 }
