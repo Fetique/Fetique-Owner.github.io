@@ -60,14 +60,22 @@ jobs:
       - name: Upload to Timeweb
         shell: bash
         env:
-          DEPLOY_KEY: ${{ secrets.TIMEWEB_DEPLOY_KEY }}
+          DEPLOY_KEY_B64: ${{ secrets.TIMEWEB_DEPLOY_KEY_B64 }}
         run: |
-          test -n "$DEPLOY_KEY" || (echo "ERROR: secret TIMEWEB_DEPLOY_KEY is not set" && exit 1)
+          if [ -z "$DEPLOY_KEY_B64" ]; then
+            echo "ERROR: repository secret TIMEWEB_DEPLOY_KEY_B64 is empty or missing"
+            exit 1
+          fi
           install -d -m 700 ~/.ssh
-          printf '%s\n' "$DEPLOY_KEY" | tr -d '\r' > ~/.ssh/deploy_key
+          if ! printf '%s' "$DEPLOY_KEY_B64" | tr -d ' \r\n' | base64 -d > ~/.ssh/deploy_key 2>/dev/null; then
+            echo "ERROR: TIMEWEB_DEPLOY_KEY_B64 is not valid base64 (length ${#DEPLOY_KEY_B64})"
+            exit 1
+          fi
           chmod 600 ~/.ssh/deploy_key
-          ssh-keygen -y -f ~/.ssh/deploy_key > ~/.ssh/deploy_key.pub \
-            || (echo "ERROR: TIMEWEB_DEPLOY_KEY is not a valid private key" && exit 1)
+          if ! ssh-keygen -y -f ~/.ssh/deploy_key > ~/.ssh/deploy_key.pub; then
+            echo "ERROR: decoded secret is not a private key; first line: $(head -c 40 ~/.ssh/deploy_key | head -1)"
+            exit 1
+          fi
           # Ожидается SHA256:q8SEo9hPtL3IdlpXaF7a1JS1ETiexWm223Rhn5lGgAo (fetique-site-deploy)
           ssh-keygen -lf ~/.ssh/deploy_key.pub
           printf '%s\n' "$DEPLOY_HOST_KEY" > ~/.ssh/known_hosts
