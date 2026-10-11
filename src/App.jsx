@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, lazy, Suspense } from "react";
+import { useCallback, useEffect, useRef, useState, lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Layout from "./components/Layout";
 import Preloader, { shouldSkipBootPreloader } from "./components/Preloader";
@@ -28,7 +28,12 @@ function ScrollToTop() {
 
 function MetrikaSpaHits() {
   const location = useLocation();
+  const isFirstRender = useRef(true);
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     if (getCookieConsent() !== "accepted") return;
     hitMetrika(location.pathname + location.search);
   }, [location.pathname, location.search]);

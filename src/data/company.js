@@ -13,8 +13,9 @@ export const COMPANY = {
 export const CONTACT = {
   channelUrl: "https://t.me/Fetique",
   channelHandle: "@Fetique",
-  projectsUrl: "https://t.me/ZeroFetique",
-  projectsHandle: "@ZeroFetique",
+  projectsUrl: "https://vk.com/zeroftq",
+  projectsHandle: "@zeroftq",
+  projectsNetwork: "ВКонтакте",
   email: "zero@fetique.com",
   phoneDisplay: "+7 (800) 700-00-48",
   phoneTel: "+78007000048",
@@ -83,7 +84,7 @@ export const PRICE_NOTE =
   "Цифры — ориентир. Точная сумма и сроки — после короткого созвона, без скрытых доплат в конце.";
 
 export const WORK_STEPS = [
-  { n: "01", title: "Заявка", text: "Пишете в Telegram, на почту или звоните на бесплатный номер." },
+  { n: "01", title: "Заявка", text: "Пишете во ВКонтакте, на почту или звоните на бесплатный номер." },
   { n: "02", title: "Созвон", text: "Обсуждаем задачу, сроки и ориентир по бюджету — без лишней бюрократии." },
   { n: "03", title: "Оформление", text: "Счёт, документы и понятные этапы — согласуем до старта работ." },
   { n: "04", title: "Результат", text: "Сдаём проект, при необходимости остаёмся на поддержке." }

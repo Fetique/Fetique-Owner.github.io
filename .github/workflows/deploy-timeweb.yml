@@ -1,4 +1,4 @@
-name: Deploy Fetique site to GitHub Pages
+name: Deploy Fetique site to Timeweb
 
 on:
   push:
@@ -6,11 +6,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: pages
+  group: deploy-timeweb
   cancel-in-progress: false
+
+env:
+  DEPLOY_HOST: 31.130.144.66
+  DEPLOY_USER: fetique-deploy
+  DEPLOY_HOST_KEY: "31.130.144.66 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPMBtMeFA8keILRUHQRAjaU5F4dp3Ki2Wkl+2TbLDk7E"
 
 jobs:
   deploy:
@@ -50,11 +55,20 @@ jobs:
             exit 1
           fi
           test -f dist/sitemap.xml || (echo "ERROR: sitemap.xml missing from dist" && exit 1)
-          test -f dist/.nojekyll || (echo "ERROR: .nojekyll missing from dist" && exit 1)
+          test -f dist/privacy/index.html || (echo "ERROR: privacy page missing from dist" && exit 1)
 
-      - name: Deploy built site to gh-pages branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          publish_branch: gh-pages
+      - name: Upload to Timeweb
+        shell: bash
+        env:
+          DEPLOY_KEY: ${{ secrets.TIMEWEB_DEPLOY_KEY }}
+        run: |
+          test -n "$DEPLOY_KEY" || (echo "ERROR: secret TIMEWEB_DEPLOY_KEY is not set" && exit 1)
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_HOST_KEY" > ~/.ssh/known_hosts
+          # Ключ на сервере ограничен rrsync каталогом /var/www/fetique: путь "./" — это его корень.
+          rsync -rlptz --delete --chmod=D755,F644 \
+            --exclude CNAME --exclude .nojekyll \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
+            dist/ "$DEPLOY_USER@$DEPLOY_HOST:./"

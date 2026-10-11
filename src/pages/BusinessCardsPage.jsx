@@ -96,7 +96,7 @@ const CARD_SERVICES = [
 
 function CardBack({ cardRef }) {
   const contacts = [
-    { label: "Telegram", value: "ZeroFetique" },
+    { label: "ВКонтакте", value: "zeroftq" },
     { label: "Почта", value: CONTACT.email },
     { label: "Телефон", value: "+7 800 700-00-48" },
     { label: "TG канал", value: CONTACT.channelHandle },

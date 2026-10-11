@@ -1,26 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { hasMetrikaId } from "../data/analytics.js";
-import {
-  enableMetrika,
-  getCookieConsent,
-  hitMetrika,
-  isMetrikaDebugMode,
-  setCookieConsent
-} from "../utils/metrika.js";
+import { enableMetrika, getCookieConsent, setCookieConsent } from "../utils/metrika.js";
 
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (isMetrikaDebugMode() && hasMetrikaId()) {
-      setCookieConsent("accepted");
-      enableMetrika();
-      hitMetrika(window.location.pathname + window.location.search);
-      setVisible(false);
-      return;
-    }
-
     const consent = getCookieConsent();
     if (consent === "accepted" && hasMetrikaId()) {
       enableMetrika();
@@ -34,10 +20,7 @@ export default function CookieConsent() {
   function accept() {
     setCookieConsent("accepted");
     setVisible(false);
-    if (hasMetrikaId()) {
-      enableMetrika();
-      hitMetrika(window.location.pathname + window.location.search);
-    }
+    if (hasMetrikaId()) enableMetrika();
   }
 
   function reject() {
@@ -51,7 +34,7 @@ export default function CookieConsent() {
     <div className="cookie-consent" role="dialog" aria-label="Согласие на файлы cookie">
       <div className="cookie-consent-inner">
         <p className="cookie-consent-text">
-          Мы используем технические cookies и — при согласии — Яндекс.Метрику для статистики посещений.
+          Мы используем технические cookies и — при согласии — Яндекс Метрику для статистики посещений.
           Подробнее в{" "}
           <Link to="/privacy" className="inline-link">
             политике конфиденциальности

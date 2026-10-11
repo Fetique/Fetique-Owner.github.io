@@ -3,6 +3,7 @@ import PageScrollbar from "./PageScrollbar.jsx";
 import SiteNav from "./SiteNav.jsx";
 import { COMPANY, CONTACT } from "../data/company.js";
 import { publicAsset } from "../utils/publicAsset.js";
+import { resetCookieConsent } from "../utils/metrika.js";
 
 const logoSrc = publicAsset("logo.svg");
 
@@ -56,6 +57,9 @@ export default function Layout({ children }) {
             <Link to="/faq">Вопросы</Link>
             <Link to="/privacy">Конфиденциальность</Link>
             <Link to="/terms">Условия</Link>
+            <button type="button" className="footer-seo-button" onClick={resetCookieConsent}>
+              Настройки cookies
+            </button>
           </nav>
         </div>
       </footer>

@@ -2,7 +2,7 @@ import { CONTACT } from "../data/company.js";
 
 const PATTERNS = [
   {
-    regex: /@ZeroFetique/g,
+    regex: /@zeroftq/g,
     href: CONTACT.projectsUrl,
     external: true
   },
@@ -31,7 +31,7 @@ const PATTERNS = [
     label: (match) => match[0]
   },
   {
-    regex: /Telegram/gi,
+    regex: /ВКонтакте/g,
     href: CONTACT.projectsUrl,
     external: true,
     label: (match) => match[0]

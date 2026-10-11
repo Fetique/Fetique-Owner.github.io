@@ -207,7 +207,7 @@ export default function LandingPage() {
             </div>
             <div data-aos="fade-up" data-aos-delay="80">
               <StampReveal>
-                В реестре нас завели в День дурака. Мы тоже улыбаемся — но {COMPANY.shortName} и печать компании
+                В реестре нас завели в День дурака. Мы тоже улыбаемся — но {COMPANY.shortName} и документы
                 настоящие.
               </StampReveal>
             </div>
@@ -232,7 +232,7 @@ export default function LandingPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className="contact-tile-label">По задаче</span>
+              <span className="contact-tile-label">По задаче · {CONTACT.projectsNetwork}</span>
               <span className="contact-tile-value contact-glow">{CONTACT.projectsHandle}</span>
               <span className="contact-tile-hint">Опишите запрос — ответим лично</span>
             </a>
@@ -258,7 +258,7 @@ export default function LandingPage() {
 
           <p className="contact-cta-hint" data-aos="fade-up">
             <a href={CONTACT.projectsUrl} target="_blank" rel="noopener noreferrer" className="contact-cta-link">
-              Написать в Telegram <FontAwesomeIcon icon={faArrowRight} />
+              Написать во {CONTACT.projectsNetwork} <FontAwesomeIcon icon={faArrowRight} />
             </a>
           </p>
 

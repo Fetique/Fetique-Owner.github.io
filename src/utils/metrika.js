@@ -18,17 +18,6 @@ export function setCookieConsent(value) {
   }
 }
 
-/** Режим отладки Метрики: ?_ym_debug=1|2 — счётчик грузим сразу (иначе проверка Яндекса его не видит). */
-export function isMetrikaDebugMode() {
-  if (typeof window === "undefined") return false;
-  try {
-    const v = new URLSearchParams(window.location.search).get("_ym_debug");
-    return v === "1" || v === "2";
-  } catch {
-    return false;
-  }
-}
-
 function injectMetrikaScript() {
   if (!hasMetrikaId() || typeof window === "undefined") return;
   if (window.__fetiqueMetrikaReady) return;
@@ -56,6 +45,7 @@ function injectMetrikaScript() {
   })(window, document, "script", tagUrl, "ym");
   /* eslint-enable */
 
+  // init сам отправляет просмотр текущей страницы; дальнейшие переходы SPA — через hitMetrika
   window.ym(YANDEX_METRIKA_ID, "init", {
     ssr: true,
     clickmap: true,
@@ -70,11 +60,43 @@ function injectMetrikaScript() {
 }
 
 export function enableMetrika() {
+  if (getCookieConsent() !== "accepted") return;
   injectMetrikaScript();
 }
 
 export function hitMetrika(url) {
   if (!hasMetrikaId() || typeof window === "undefined" || typeof window.ym !== "function") return;
-  if (getCookieConsent() !== "accepted" && !isMetrikaDebugMode()) return;
+  if (getCookieConsent() !== "accepted") return;
   window.ym(YANDEX_METRIKA_ID, "hit", url || window.location.pathname + window.location.search);
+}
+
+function deleteMetrikaCookies() {
+  const host = window.location.hostname;
+  const domains = ["", host, `.${host}`, `.${host.replace(/^www\./, "")}`];
+  document.cookie.split(";").forEach((part) => {
+    const name = part.split("=")[0].trim();
+    if (!name.startsWith("_ym") && name !== "mdd") return;
+    domains.forEach((domain) => {
+      const domainAttr = domain ? `; domain=${domain}` : "";
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${domainAttr}`;
+    });
+  });
+  try {
+    Object.keys(localStorage)
+      .filter((key) => key.startsWith("_ym"))
+      .forEach((key) => localStorage.removeItem(key));
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Отзыв согласия: сбрасываем выбор, удаляем cookie Метрики и перезагружаем без счётчика. */
+export function resetCookieConsent() {
+  try {
+    localStorage.removeItem(COOKIE_CONSENT_KEY);
+  } catch {
+    /* ignore */
+  }
+  deleteMetrikaCookies();
+  window.location.reload();
 }

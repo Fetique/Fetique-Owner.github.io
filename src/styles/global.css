@@ -3867,6 +3867,23 @@ button.contact-tile {
   color: var(--gold);
 }
 
+.footer-seo-button {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.footer-seo-button:hover,
+.footer-seo-button:focus-visible {
+  color: var(--gold);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .faq-answer,
   .faq-trigger-icon,
