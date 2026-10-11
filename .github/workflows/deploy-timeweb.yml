@@ -64,8 +64,12 @@ jobs:
         run: |
           test -n "$DEPLOY_KEY" || (echo "ERROR: secret TIMEWEB_DEPLOY_KEY is not set" && exit 1)
           install -d -m 700 ~/.ssh
-          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KEY" | tr -d '\r' > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
+          ssh-keygen -y -f ~/.ssh/deploy_key > ~/.ssh/deploy_key.pub \
+            || (echo "ERROR: TIMEWEB_DEPLOY_KEY is not a valid private key" && exit 1)
+          # Ожидается SHA256:q8SEo9hPtL3IdlpXaF7a1JS1ETiexWm223Rhn5lGgAo (fetique-site-deploy)
+          ssh-keygen -lf ~/.ssh/deploy_key.pub
           printf '%s\n' "$DEPLOY_HOST_KEY" > ~/.ssh/known_hosts
           # Ключ на сервере ограничен rrsync каталогом /var/www/fetique: путь "./" — это его корень.
           rsync -rlptz --delete --chmod=D755,F644 \
