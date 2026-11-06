@@ -189,7 +189,7 @@ export default function PortfolioShowcase() {
                 </div>
               ) : (
                 <div className="portfolio-media-pending" aria-hidden>
-                  <span>?</span>
+                  <span className="text-gradient">{item.title}</span>
                 </div>
               )}
 

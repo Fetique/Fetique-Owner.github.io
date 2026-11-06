@@ -14,7 +14,7 @@ export default function HomeProjects() {
           <p className="section-kicker">/ 01 — проекты</p>
           <h2 className="section-title">Живые кейсы</h2>
           <p className="section-lead">
-            Сайты, АРМ, боты и внутренние инструменты — с нормальным описанием и актуальным статусом.
+            Сайты, АРМ, боты и внутренние инструменты — с описанием задачи и актуальным статусом.
           </p>
         </div>
         <Link to="/portfolio" className="home-projects-all">
@@ -39,7 +39,7 @@ export default function HomeProjects() {
                   <img src={img} alt="" width={640} height={360} loading="lazy" decoding="async" />
                 ) : (
                   <div className="portfolio-media-pending portfolio-media-pending--home" aria-hidden>
-                    <span>?</span>
+                    <span className="text-gradient">{item.title}</span>
                   </div>
                 )}
               </div>

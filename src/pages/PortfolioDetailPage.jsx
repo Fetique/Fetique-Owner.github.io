@@ -7,13 +7,12 @@ import { getPortfolioBySlug, PORTFOLIO_STATUS } from "../data/portfolio.js";
 import { CONTACT } from "../data/company.js";
 import { publicAsset } from "../utils/publicAsset.js";
 
-function ProjectMedia({ media }) {
+function ProjectMedia({ media, title }) {
   if (!media?.src) {
     return (
       <figure className="project-detail-media project-detail-media--pending" aria-label="Превью появится позже">
         <div className="portfolio-media-pending portfolio-media-pending--detail" aria-hidden>
-          <span>?</span>
-          <p>Скрин появится позже</p>
+          <span className="text-gradient">{title}</span>
         </div>
       </figure>
     );
@@ -90,7 +89,7 @@ export default function PortfolioDetailPage() {
           {item.year ? <span className="project-detail-year">{item.year}</span> : null}
         </div>
 
-        <ProjectMedia media={detail.media} />
+        <ProjectMedia media={detail.media} title={item.title} />
 
         {detail.sections?.map((section) => (
           <section key={section.h2} className="article-section">

@@ -77,7 +77,7 @@ export default function LandingPage() {
               <p className="hero-display">
                 Сайты и digital для бизнеса —
                 <br />
-                с ясным сроком и одним контактом.
+                с ясным сроком и одним контактом
               </p>
               <p className="hero-lead">
                 Разработка, доработка и сопровождение. Без агентской шелухи и скрытых доплат в конце.
