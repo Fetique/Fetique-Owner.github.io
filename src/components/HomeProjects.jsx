@@ -34,8 +34,18 @@ export default function HomeProjects() {
               data-aos="fade-up"
               data-aos-delay={i * 60}
             >
-              <div className={`home-project-thumb${item.thumbFit === "logo" ? " home-project-thumb--logo" : ""}`}>
-                {img ? (
+              <div
+                className={`home-project-thumb${item.thumbFit === "logo" ? " home-project-thumb--logo" : ""}${
+                  i === 0 && item.thumbPosition === "right" ? " thumb-right" : ""
+                }`}
+              >
+                {i === 0 && item.leadShots?.length ? (
+                  <div className="home-project-phones">
+                    {item.leadShots.map((shot) => (
+                      <img key={shot} src={publicAsset(shot)} alt="" width={585} height={1266} loading="lazy" decoding="async" />
+                    ))}
+                  </div>
+                ) : img ? (
                   <img src={img} alt="" width={640} height={360} loading="lazy" decoding="async" />
                 ) : (
                   <div className="portfolio-media-pending portfolio-media-pending--home" aria-hidden>

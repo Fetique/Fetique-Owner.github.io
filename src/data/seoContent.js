@@ -175,7 +175,7 @@ export const SERVICE_ARTICLES = {
   portfolio: {
     title: "Портфолио и проекты — Fetique",
     description:
-      "Проекты Fetique: bastilion.ru, ДИСПА, Pulse, FrozenMusic, FetiqueDeal и другие кейсы в работе.",
+      "Проекты Fetique: Pulse, ДИСПА, FetiqueDeal, fetique.com, Geli.k и другие кейсы — с видео, экранами и описанием задачи.",
     keywords: "портфолио веб-разработка, проекты Fetique, примеры сайтов, Telegram боты",
     h1: "Проекты и портфолио",
     lead:

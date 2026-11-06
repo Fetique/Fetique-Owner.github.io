@@ -28,6 +28,29 @@ function BrowserFrame({ src, url, alt }) {
   );
 }
 
+function FeatureVideo({ src, poster, title }) {
+  const [still] = useState(
+    () => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+  );
+
+  return (
+    <div className="feature-video">
+      <video
+        src={still ? undefined : src}
+        poster={poster}
+        aria-label={`Видеообзор ${title}`}
+        width={1280}
+        height={720}
+        autoPlay={!still}
+        muted
+        loop
+        playsInline
+        preload={still ? "none" : "auto"}
+      />
+    </div>
+  );
+}
+
 function PortfolioCardActions({ item }) {
   if (item.placeholder) {
     return (
@@ -113,9 +136,11 @@ export default function PortfolioShowcase() {
         ))}
       </div>
 
-      <article className="portfolio-feature">
+      <article className={`portfolio-feature${featured.video ? " portfolio-feature--video" : ""}`}>
         <div className="portfolio-feature-visual">
-          {featuredImg ? (
+          {featured.video ? (
+            <FeatureVideo src={publicAsset(featured.video)} poster={featuredImg ?? undefined} title={featured.title} />
+          ) : featuredImg ? (
             <BrowserFrame src={featuredImg} url={featured.title} alt={`Превью ${featured.title}`} />
           ) : (
             <div className="portfolio-feature-placeholder" aria-hidden />
@@ -148,7 +173,7 @@ export default function PortfolioShowcase() {
             ) : null}
             {featured.url ? (
               <a className="btn btn-contact portfolio-feature-btn" href={featured.url} target="_blank" rel="noopener noreferrer">
-                <span className="btn-contact-label">Открыть сайт</span>
+                <span className="btn-contact-label">Открыть проект</span>
                 <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
               </a>
             ) : null}
@@ -178,7 +203,7 @@ export default function PortfolioShowcase() {
               ) : imgSrc ? (
                 <div
                   className={`portfolio-side-thumb${
-                    item.id === "fetique-deal"
+                    item.thumbFit === "stamp"
                       ? " portfolio-side-thumb--stamp"
                       : item.thumbFit === "logo"
                         ? " portfolio-side-thumb--logo"

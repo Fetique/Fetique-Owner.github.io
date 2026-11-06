@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import SeoHead from "../components/SeoHead.jsx";
 import ArticleLayout from "../components/ArticleLayout.jsx";
+import ProjectGallery from "../components/ProjectGallery.jsx";
 import { getPortfolioBySlug, PORTFOLIO_STATUS } from "../data/portfolio.js";
 import { CONTACT } from "../data/company.js";
 import { publicAsset } from "../utils/publicAsset.js";
@@ -19,6 +20,25 @@ function ProjectMedia({ media, title }) {
   }
 
   const src = publicAsset(media.src);
+
+  if (media.type === "video") {
+    return (
+      <figure className="project-detail-media project-detail-media--video">
+        <video
+          src={src}
+          poster={media.poster ? publicAsset(media.poster) : undefined}
+          aria-label={media.alt}
+          width={1280}
+          height={720}
+          controls
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        />
+      </figure>
+    );
+  }
 
   if (media.type === "gif") {
     return (
@@ -91,12 +111,39 @@ export default function PortfolioDetailPage() {
 
         <ProjectMedia media={detail.media} title={item.title} />
 
+        {detail.demoNote ? (
+          <p className="project-demo-note">
+            На видео и экранах — демонстрационные данные. Названия организаций, имена, телефоны, госномера и
+            реквизиты вымышлены, любые совпадения с реальными лицами и организациями случайны.
+          </p>
+        ) : null}
+
+        {detail.facts?.length ? (
+          <dl className="project-facts">
+            {detail.facts.map((fact) => (
+              <div key={fact.label} className="project-fact">
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
+
         {detail.sections?.map((section) => (
           <section key={section.h2} className="article-section">
             <h2>{section.h2}</h2>
-            {section.paragraphs.map((p) => (
+            {section.paragraphs?.map((p) => (
               <p key={p.slice(0, 40)}>{p}</p>
             ))}
+            {section.items?.length ? (
+              <ul className="project-points">
+                {section.items.map((point) => (
+                  <li key={point.title}>
+                    <strong>{point.title}</strong> {point.text}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
             {section.quotes?.map((quote) => (
               <blockquote key={quote.text.slice(0, 48)} className="project-quote">
                 <p>
@@ -114,6 +161,8 @@ export default function PortfolioDetailPage() {
             ))}
           </section>
         ))}
+
+        <ProjectGallery gallery={detail.gallery} title={item.title} />
 
         {item.url ? (
           <p className="project-detail-link">
